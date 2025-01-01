@@ -1,0 +1,5 @@
+add_subdirectory(model)
+
+add_executable(main main.cpp)
+target_link_libraries(main PRIVATE sfml-graphics)
+target_link_libraries(main PUBLIC model)
