@@ -1,7 +1,9 @@
 #include <Model.hpp>
 
-Unit::Unit(sf::Vector2f pos, int hp, int spd, int atk)
+Unit::Unit(int i, std::string t, sf::Vector2f pos, int hp, int spd, int atk)
 {
+    id=i;
+    texture=t;
     position = pos;
     health = hp;
     speed = spd;

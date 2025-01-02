@@ -1,0 +1,4 @@
+add_library(view STATIC Game_view.cpp)
+target_include_directories(view PUBLIC .)
+target_link_libraries(view PUBLIC model)
+target_link_libraries(view PRIVATE sfml-graphics)
