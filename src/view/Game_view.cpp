@@ -33,13 +33,13 @@ void Game_view::render()
     window.display();
 }
 
-Game_view::Game_view() : window(sf::VideoMode::getDesktopMode(), "RTS Game")
+Game_view::Game_view(Model* m) :model(m), window(sf::VideoMode::getDesktopMode(), "RTS Game")
 {
 }
 
-void Game_view::drawUnits(const std::vector<Unit> &units)
+void Game_view::drawUnits()
 {
-    updateSprites(units);
+    updateSprites(model->units_vector());
     render();
 }
 

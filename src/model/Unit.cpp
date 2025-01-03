@@ -1,5 +1,15 @@
 #include <Model.hpp>
 
+Unit::Unit()
+{
+    id=-1;
+    texture="dumb.jpg";
+    position = sf::Vector2f(0,0);
+    health = 0;
+    speed = 0;
+    attackPower = 0;
+}
+
 Unit::Unit(int i, std::string t, sf::Vector2f pos, int hp, int spd, int atk)
 {
     id=i;
@@ -13,12 +23,4 @@ Unit::Unit(int i, std::string t, sf::Vector2f pos, int hp, int spd, int atk)
 void Unit::move(sf::Vector2f direction)
 {
     position += speed * direction;
-}
-
-void Unit::draw(sf::RenderWindow &window)
-{
-    sf::CircleShape shape(20);
-    shape.setPosition(position);
-    shape.setFillColor(sf::Color::Green);
-    window.draw(shape);
 }

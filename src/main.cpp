@@ -6,14 +6,13 @@
 
 int main()
 {
-    Game_view view;
-    // 初始化地图
-    Map map(800, 600);
+    Model model(4000,2000);
+    Game_view view(&model);
 
     // 初始化一些单位
     std::vector<Unit> units;
-    units.push_back(Unit(0, "shuai_jimao.jpg", sf::Vector2f(50, 50), 100, 5, 10));
-    units.push_back(Unit(1, "wuyu_xiaobai.jpg", sf::Vector2f(150, 150), 120, 4, 12));
+    model.add_unit("shuai_jimao.jpg", sf::Vector2f(50, 50), 100, 5, 10);
+    model.add_unit("wuyu_xiaobai.jpg", sf::Vector2f(150, 150), 120, 4, 12);
 
     while (view.isOpen())
     {
@@ -25,11 +24,7 @@ int main()
                 view.close();
             }
         }
-        for (Unit &unit : units)
-        {
-            unit.move(sf::Vector2f(1, 0));
-        }
-        view.drawUnits(units);
+        view.drawUnits();
     }
 
     return 0;

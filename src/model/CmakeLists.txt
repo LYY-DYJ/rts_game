@@ -1,3 +1,3 @@
-add_library(model STATIC Resource.cpp Map.cpp Unit.cpp) 
+add_library(model STATIC Model.cpp Resource.cpp Map.cpp Unit.cpp) 
 target_include_directories(model PUBLIC .)
 target_link_libraries(model PRIVATE sfml-graphics)

@@ -19,10 +19,11 @@ private:
 
 public:
     sf::RenderWindow window;
-    Game_view();
+    Model* model;
+    Game_view(Model* model);
 
     // 画每个unit
-    void drawUnits(const std::vector<Unit> &units);
+    void drawUnits();
 
     bool isOpen() const;
     void close();
