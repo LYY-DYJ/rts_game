@@ -1,6 +1,8 @@
 #ifndef MODEL_H
 #define MODEL_H
 #include<unordered_map>
+class Model;
+class Entity_factory;
 
 enum Move_type{no_move,walk};
 
@@ -31,9 +33,11 @@ public:
 class Entity
 {
 public:
+    Model* model;
     int id;
     std::string texture;
     Moveable* moveable;
+    Entity_factory* entity_factory;
     Entity();
     Entity(int id,std::string texture,Moveable* moveable);
     void set_id(int id);
@@ -51,21 +55,28 @@ public:
     void update();
 };
 
-
-
 class Entity_factory
+{
+public:
+    ~Entity_factory(){};
+    virtual void generate(int i)=0;
+};
+
+class False_entity_factory:public Entity_factory
+{
+    False_entity_factory();
+    void generate(int i){};
+};
+
+class True_entity_factory:public Entity_factory
 {
 public:
     Model* model;
     std::vector<Entity> produceable_entity;
     sf::Vector2f produce_position;
-    Entity_factory(Model* model);
+    True_entity_factory(Model* model);
     void add_entity(Entity);
     void generate(int i);
 };
-
-
-
-
 
 #endif

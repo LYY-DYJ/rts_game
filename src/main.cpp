@@ -8,6 +8,7 @@
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(1600,900),"RTS Game");
+    window.setFramerateLimit(60);
     Model model;
     View view(&model,&window);
     Controller controller(&window,&view);

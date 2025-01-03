@@ -28,18 +28,18 @@ void Walk::move(sf::Vector2f direction)
     position+=direction*speed;
 }
 
-Entity_factory::Entity_factory(Model* m)
+True_entity_factory::True_entity_factory(Model* m)
 {
     model=m;
     produce_position=sf::Vector2f(0,0);
 }
 
-void Entity_factory::add_entity(Entity new_entity)
+void True_entity_factory::add_entity(Entity new_entity)
 {
     produceable_entity.push_back(new_entity);
 }
 
-void Entity_factory::generate(int i)
+void True_entity_factory::generate(int i)
 {   
     Entity new_entity=produceable_entity.at(i);
     model->add_entity(produceable_entity.at(i));

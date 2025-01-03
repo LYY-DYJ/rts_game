@@ -14,4 +14,4 @@ FetchContent_Declare(SFML
     SYSTEM)
 FetchContent_MakeAvailable(SFML)
 
-install(DIRECTORY img DESTINATION ${PROJECT_BINARY_DIR}/rts_game)
+install(DIRECTORY game/img DESTINATION ${PROJECT_BINARY_DIR}/rts_game)
