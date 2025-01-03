@@ -5,28 +5,26 @@
 #include <unordered_map>
 #include "Model.hpp"
 
-class Game_view
+class View
 {
 private:
+    sf::View main_view;
+    float move_speed;
     std::unordered_map<std::string, sf::Texture> unit_texture;
     std::unordered_map<int, sf::Sprite> unit_sprites;
 
     // 更新每个unit的图形
-    void updateSprites(const std::vector<Unit> &units);
-
-    // 渲染所有unit的图形
-    void render();
-
+    void update_sprites(const std::vector<Unit> &units);
+    
 public:
-    sf::RenderWindow window;
+    sf::RenderWindow* window;
     Model* model;
-    Game_view(Model* model);
+    View(Model* model,sf::RenderWindow* window);
 
+    void draw_all();
     // 画每个unit
-    void drawUnits();
+    void draw_units();
 
-    bool isOpen() const;
-    void close();
-    bool pollEvent(sf::Event &event);
+    void main_view_move(int x,int y);
 };
 #endif

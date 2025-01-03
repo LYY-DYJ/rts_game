@@ -2,29 +2,26 @@
 #include <iostream>
 #include <vector>
 #include "Model.hpp"
-#include "Game_view.hpp"
+#include "View.hpp"
+#include "Controller.hpp"
 
 int main()
 {
+    sf::RenderWindow window(sf::VideoMode(1600,900),"RTS Game");
     Model model(4000,2000);
-    Game_view view(&model);
+    View view(&model,&window);
+    Controller controller(&window,&view);
+    
 
     // 初始化一些单位
     std::vector<Unit> units;
     model.add_unit("shuai_jimao.jpg", sf::Vector2f(50, 50), 100, 5, 10);
     model.add_unit("wuyu_xiaobai.jpg", sf::Vector2f(150, 150), 120, 4, 12);
 
-    while (view.isOpen())
+    while (window.isOpen())
     {
-        sf::Event event;
-        while (view.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-            {
-                view.close();
-            }
-        }
-        view.drawUnits();
+        controller.handleInput();
+        view.draw_all();
     }
 
     return 0;

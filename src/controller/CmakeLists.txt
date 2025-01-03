@@ -1,0 +1,4 @@
+add_library(controller STATIC controller.cpp)
+target_include_directories(controller PUBLIC .)
+target_link_libraries(controller PRIVATE sfml-graphics)
+target_link_libraries(controller PUBLIC model view)

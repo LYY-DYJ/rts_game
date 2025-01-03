@@ -1,5 +1,6 @@
 add_subdirectory(model)
 add_subdirectory(view)
+add_subdirectory(controller)
 add_executable(main main.cpp)
 target_link_libraries(main PRIVATE sfml-graphics)
-target_link_libraries(main PUBLIC model view)
+target_link_libraries(main PUBLIC model controller view)
