@@ -8,7 +8,7 @@
 class Game_view
 {
 private:
-    std::unordered_map<int, sf::Texture> unit_texture;
+    std::unordered_map<std::string, sf::Texture> unit_texture;
     std::unordered_map<int, sf::Sprite> unit_sprites;
 
     // 更新每个unit的图形

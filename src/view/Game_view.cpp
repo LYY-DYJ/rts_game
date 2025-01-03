@@ -12,8 +12,8 @@ void Game_view::updateSprites(const std::vector<Unit> &units)
         if (texture.loadFromFile("img/"+unit.texture))
         {
             sf::Sprite sprite;
-            unit_texture[unit.id] = texture;
-            sprite.setTexture(unit_texture[unit.id]);
+            unit_texture[unit.texture] = texture;
+            sprite.setTexture(unit_texture[unit.texture]);
             sprite.setPosition(unit.position);
             sprite.setScale(sf::Vector2f(0.2, 0.2));
             unit_sprites[unit.id] = sprite;
