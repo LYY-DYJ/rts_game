@@ -23,7 +23,7 @@ void View::update_sprites(const std::vector<Unit> &units)
     }
 }
 
-View::View(Model* m,sf::RenderWindow* w) :model(m), window(w),move_speed(2),main_view(sf::FloatRect(0.f, 0.f, 800.f, 450.f))
+View::View(Model* m,sf::RenderWindow* w) :model(m), window(w),move_speed(2),main_view(sf::FloatRect(0.f, 0.f, 800.f, 450.f)),zoom_rate(1.05)
 {
 }
 
@@ -46,8 +46,17 @@ void View::draw_units()
 
 void View::main_view_move(int x,int y)
 {
-    sf::Vector2f view_centor=main_view.getCenter();
-    view_centor.x+=x*move_speed;
-    view_centor.y+=y*move_speed;
-    main_view.setCenter(view_centor);
+    main_view.move(move_speed*x,move_speed*y);
+}
+
+void View::main_view_zoom(int r)
+{
+    if(r>0)
+    {
+        main_view.zoom(1/zoom_rate);
+    }
+    else if(r<0)
+    {
+        main_view.zoom(zoom_rate);
+    }
 }

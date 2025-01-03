@@ -10,6 +10,7 @@ class View
 private:
     sf::View main_view;
     float move_speed;
+    float zoom_rate;
     std::unordered_map<std::string, sf::Texture> unit_texture;
     std::unordered_map<int, sf::Sprite> unit_sprites;
 
@@ -24,7 +25,9 @@ public:
     void draw_all();
     // 画每个unit
     void draw_units();
-
+    // 移动主视角
     void main_view_move(int x,int y);
+    // 缩放主视角
+    void main_view_zoom(int r);
 };
 #endif

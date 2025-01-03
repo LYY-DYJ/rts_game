@@ -10,6 +10,7 @@ public:
 private:
     sf::Window* window;
     View* view;
+    int border_size;
     void view_move(sf::Vector2i mouse_position);
-    
+    void view_zoom(float delta);
 };

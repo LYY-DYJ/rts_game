@@ -7,11 +7,11 @@ Controller::Controller(sf::Window *w,View* v)
 {
     window = w;
     view=v;
+    border_size=10;
 }
 
 void Controller::view_move(sf::Vector2i mouse_position)
 {
-    int border_size = 10;
     sf::Vector2u window_size = window->getSize();
     float left_border = static_cast<float>(border_size);
     float right_border = static_cast<float>(window_size.x - border_size);
@@ -23,13 +23,26 @@ void Controller::view_move(sf::Vector2i mouse_position)
         view->main_view_move(x,y);
 }
 
+void Controller::view_zoom(float delta)
+{
+    view->main_view_zoom(delta);
+}
+
 void Controller::handleInput()
 {
     sf::Event event;
     while (window->pollEvent(event))
     {
         if (event.type == sf::Event::Closed)
+        {
             window->close();
+        }
+        else if (event.type == sf::Event::MouseWheelScrolled)
+        {
+           
+            view_zoom(event.mouseWheelScroll.delta);
+        }
+         
     }
     sf::Vector2i mouse_position = sf::Mouse::getPosition(*window);
     view_move(mouse_position);
