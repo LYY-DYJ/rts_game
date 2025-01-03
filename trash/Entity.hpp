@@ -1,8 +1,12 @@
-#ifndef MODEL_H
-#define MODEL_H
-#include<unordered_map>
+#ifndef ENTITY_H
+#define ENTITY_H
 
-enum Move_type{no_move,walk};
+#include<string>
+#include<vector>
+#include<SFML/Graphics.hpp>
+#include"Model.hpp"
+
+
 
 class Moveable
 {
@@ -17,7 +21,7 @@ public:
 class No_move:public Moveable
 {
 public:
-    No_move(sf::Vector2f position);
+    No_move(sf::Vector2f position,float speed);
     void move(sf::Vector2f direction);
 };
 
@@ -26,6 +30,17 @@ class Walk:public Moveable
 public:
     Walk(sf::Vector2f position,float speed);
     void move(sf::Vector2f direction);
+};
+
+class Entity_factory
+{
+public:
+    Model* model;
+    std::vector<Entity> produceable_entity;
+    sf::Vector2f produce_position;
+    Entity_factory(Model* model);
+    void add_entity(Entity);
+    void generate(int i);
 };
 
 class Entity
@@ -39,33 +54,5 @@ public:
     void set_id(int id);
     void act();
 };
-
-class Model
-{
-public:
-    int id_max;
-    std::unordered_map<int,Entity> entities;
-    Model();
-    void add_entity(Entity entity);
-    std::vector<Entity> entity_vector();
-    void update();
-};
-
-
-
-class Entity_factory
-{
-public:
-    Model* model;
-    std::vector<Entity> produceable_entity;
-    sf::Vector2f produce_position;
-    Entity_factory(Model* model);
-    void add_entity(Entity);
-    void generate(int i);
-};
-
-
-
-
 
 #endif

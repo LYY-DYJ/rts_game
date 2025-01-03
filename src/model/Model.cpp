@@ -1,25 +1,32 @@
 #include<SFML/Graphics.hpp>
 #include"Model.hpp"
 
-Model::Model(int map_w,int map_h):map(map_w,map_h)
+Model::Model()
 {
-    id_max=0;
-    void add_unit(std::string type, sf::Vector2f pos, int hp, int spd, int atk);
+    id_max=-1;
 }
 
-void Model::add_unit(std::string type, sf::Vector2f pos, int hp, int spd, int atk)
+void Model::add_entity(Entity entity)
 {
-    int id=id_max;
     id_max++;
-    units[id]=Unit(id,type,pos,hp,spd,atk);
+    entity.id=id_max;
+    entities[id_max]=entity;
 }
 
-std::vector<Unit> Model::units_vector()
+std::vector<Entity> Model::entity_vector()
 {
-    std::vector<Unit> uv;
-    for(auto& [id, unit] : units)
+    std::vector<Entity> ev;
+    for(auto& [id, entity] : entities)
     {
-        uv.push_back(unit);
+        ev.push_back(entity);
     }
-    return uv;
+    return ev;
+}
+
+void Model::update()
+{
+    for(auto& [id, entity] : entities)
+    {
+        entity.act();
+    }
 }

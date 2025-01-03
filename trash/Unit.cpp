@@ -20,7 +20,3 @@ Unit::Unit(int i, std::string t, sf::Vector2f pos, int hp, int spd, int atk)
     attackPower = atk;
 }
 
-void Unit::move(sf::Vector2f direction)
-{
-    position += speed * direction;
-}

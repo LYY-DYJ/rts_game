@@ -4,19 +4,19 @@
 #include "Model.hpp"
 #include "View.hpp"
 
-void View::update_sprites(const std::vector<Unit> &units)
+void View::update_sprites(const std::vector<Entity> &entities)
 {
-    for (const Unit &unit : units)
+    for (const Entity &entity : entities)
     {
         sf::Texture texture;
-        if (texture.loadFromFile("img/"+unit.texture))
+        if (texture.loadFromFile("img/"+entity.texture))
         {
             sf::Sprite sprite;
-            unit_texture[unit.texture] = texture;
-            sprite.setTexture(unit_texture[unit.texture]);
-            sprite.setPosition(unit.position);
+            entity_texture[entity.texture] = texture;
+            sprite.setTexture(entity_texture[entity.texture]);
+            sprite.setPosition(entity.moveable->position);
             sprite.setScale(sf::Vector2f(0.2, 0.2));
-            unit_sprites[unit.id] = sprite;
+            entity_sprites[entity.id] = sprite;
         }
         else 
             return;
@@ -31,14 +31,14 @@ void View::draw_all()
 {
     window->setView(main_view);
     window->clear(sf::Color::White);
-    draw_units();
+    draw_entities();
     window->display();
 }
 
-void View::draw_units()
+void View::draw_entities()
 {
-    update_sprites(model->units_vector());
-    for (const auto &[id, sprite] : unit_sprites)
+    update_sprites(model->entity_vector());
+    for (const auto &[id, sprite] : entity_sprites)
     {
         window->draw(sprite);
     }

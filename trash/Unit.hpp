@@ -1,8 +1,9 @@
 #ifndef UNIT_H
 #define UNIT_H
 #include <SFML/Graphics.hpp>
+#include "Entity.hpp"
 // 定义一个单位类
-class Unit
+class Unit:public Entity
 {
 public:
     int id;

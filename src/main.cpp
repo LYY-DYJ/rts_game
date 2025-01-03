@@ -8,19 +8,21 @@
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(1600,900),"RTS Game");
-    Model model(4000,2000);
+    Model model;
     View view(&model,&window);
     Controller controller(&window,&view);
     
 
     // 初始化一些单位
-    std::vector<Unit> units;
-    model.add_unit("shuai_jimao.jpg", sf::Vector2f(50, 50), 100, 5, 10);
-    model.add_unit("wuyu_xiaobai.jpg", sf::Vector2f(150, 150), 120, 4, 12);
+    Moveable* m0=new Walk(sf::Vector2f(100,100),10);
+    Moveable* m1=new No_move(sf::Vector2f(200,200));
+    model.add_entity(Entity(-1,"shuai_jimao.jpg",m0));
+    model.add_entity(Entity(-1,"wuyu_xiaobai.jpg",m1));
 
     while (window.isOpen())
     {
         controller.handleInput();
+        model.update();
         view.draw_all();
     }
 
