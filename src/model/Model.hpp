@@ -68,10 +68,10 @@ public:
 class Entity_factory
 {
 public:
-
     sf::Vector2f relative_position;
     bool entity_factory_type;
     ~Entity_factory(){};
+    int entity_num;
     virtual Entity_factory* clone()=0;
     virtual void add_entity(const Entity&)=0;
     virtual void generate(int i,sf::Vector2f owner_postion)=0;
@@ -80,7 +80,7 @@ public:
 class False_entity_factory:public Entity_factory
 {
 public:
-    False_entity_factory(){};
+    False_entity_factory();
     Entity_factory* clone();
     void add_entity(const Entity&){};
     void generate(int i,sf::Vector2f owner_postion){};
@@ -120,5 +120,26 @@ public:
     void control(Entity* entity);
 };
 
+class Skill
+{
+public:
+    virtual Skill* clone()=0;
+    virtual void release()=0;
+};
 
+class No_skill:Skill
+{
+public:
+    No_skill(){};
+    Skill* clone();
+    void release(){};
+};
+
+class Normal_attack:Skill
+{
+public:
+    float cd_time;//as millisecond
+    float range;
+    
+};
 #endif

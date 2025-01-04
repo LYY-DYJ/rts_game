@@ -42,10 +42,15 @@ void Walk::move(sf::Vector2f direction)
     position+=direction*speed;
 }
 
+False_entity_factory::False_entity_factory()
+{
+    entity_num=0;
+}
+
 Entity_factory* False_entity_factory::clone()
 {
     Entity_factory* new_entity_factory;
-    new_entity_factory = new False_entity_factory();
+    new_entity_factory = new False_entity_factory(*this);
     return new_entity_factory;
 }
 
@@ -53,25 +58,29 @@ True_entity_factory::True_entity_factory(Model* m)
 {
     model=m;
     entity_factory_type=true;
+    entity_num=0;
     relative_position=sf::Vector2f(0,0);
 }
 
 Entity_factory* True_entity_factory::clone()
 {
     Entity_factory* new_entity_factory;
-    new_entity_factory = new True_entity_factory(model);
+    new_entity_factory = new True_entity_factory(*this);
     return new_entity_factory;
 }
 
 void True_entity_factory::add_entity(const Entity& new_entity)
 {
     produceable_entity.push_back(new_entity);
+    entity_num++;
 }
 
 void True_entity_factory::generate(int i,sf::Vector2f owner_postion)
 {   
     Entity new_entity;
-    if(i>=produceable_entity.size())
+    if(i<0&&i>=-int(produceable_entity.size()))
+        i=produceable_entity.size()+i;
+    if(i>=int(produceable_entity.size())||i<0)
         return;
     new_entity=produceable_entity.at(i);
     new_entity.moveable->position=relative_position+owner_postion;

@@ -34,6 +34,7 @@ void Random_strategy::control(Entity* entity)
         clk.restart();
         int rand_num=rand()%4;
         direction=sf::Vector2f(rand_num/2-0.5,rand_num%2-0.5);
-        entity->entity_factory->generate(0,entity->moveable->position);
+        if(entity->entity_factory->entity_num!=0)
+            entity->entity_factory->generate(rand_num%entity->entity_factory->entity_num,entity->moveable->position);
     }
 }
