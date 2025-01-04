@@ -3,11 +3,12 @@
 #include "View.hpp"
 #include "Controller.hpp"
 
-Controller::Controller(sf::Window *w,View* v)
+Controller::Controller(sf::RenderWindow *w,Model* m,View* v)
 {
     window = w;
+    model = m;
     view=v;
-    border_size=10;
+    border_size=20;
 }
 
 void Controller::view_move(sf::Vector2i mouse_position)
@@ -39,10 +40,19 @@ void Controller::handleInput()
         }
         else if (event.type == sf::Event::MouseWheelScrolled)
         {
-           
             view_zoom(event.mouseWheelScroll.delta);
         }
-         
+        else if (event.type == sf::Event::MouseButtonPressed)
+        {
+            sf::Vector2i mouse_position = sf::Mouse::getPosition(*window);
+            sf::Vector2f worldPos = window->mapPixelToCoords(mouse_position);
+            Entity* closest_entity=model->entity_closest(worldPos,50);
+            if(closest_entity!=nullptr)
+            {
+                int target_id=closest_entity->id;
+                model->attack(target_id);
+            }
+        }
     }
     sf::Vector2i mouse_position = sf::Mouse::getPosition(*window);
     view_move(mouse_position);

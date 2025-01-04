@@ -1,7 +1,10 @@
 #ifndef MODEL_H
 #define MODEL_H
 #include<unordered_map>
+#include<queue>
 #include<SFML/Graphics.hpp>
+
+
 class Model;
 class Model_event;
 class Entity;
@@ -14,10 +17,13 @@ class Model
 {
 public:
     int id_max;
+    std::vector<int> erase_vector;
     std::unordered_map<int,Entity> entities;
-    std::vector<Model_event> events;
+    std::queue<Model_event*> events_queue;
+    std::queue<Model_event*> events_wait_queue;
     Model();
     void add_entity(Entity entity);
+    void attack(int id);
     std::vector<Entity> entity_vector();
     std::vector<Entity> entity_in_range(sf::Vector2f point,float range);
     Entity* entity_closest(sf::Vector2f point,float range);
@@ -28,17 +34,32 @@ public:
 
 class Model_event
 {
-    virtual void settle()=0;
+public:
+    virtual bool settle(Model*)=0;
 };
 
-class Normal_attack_event
+class Normal_attack_event:public Model_event
 {
-    int attack;
+public:
     int id;
-    void settle();
+    int attack;
+    Normal_attack_event(int id,int attack);
+    bool settle(Model*);
+};
+
+class Reset_idle_event:public Model_event
+{
+public:
+    int id;
+    sf::Time duration=sf::milliseconds(300);
+    sf::Clock clk;
+    Reset_idle_event(int id);
+    bool settle(Model*);
 };
 
 enum Entity_type{UNIT,BUILDING,TERRAIN};
+
+enum Entity_state{IDLE,ATTACKTED};
 
 class Entity
 {
@@ -46,6 +67,8 @@ public:
     int id;
     Entity_type entity_type;
     std::string texture;
+    int health;    
+    Entity_state entity_state;
     Model* model;
     Moveable* moveable;
     Entity_factory* entity_factory;
@@ -158,7 +181,7 @@ class Skill
 {
 public:
     virtual Skill* clone()=0;
-    virtual void release()=0;
+    virtual void release(Entity*)=0;
 };
 
 class No_skill:Skill
@@ -166,19 +189,22 @@ class No_skill:Skill
 public:
     No_skill(){};
     Skill* clone();
-    void release(){};
+    void release(Entity*){};
 };
 
 class Normal_attack:Skill
 {
 public:
+    sf::Clock clk;
     bool available;
     float cd_time;//as millisecond
     float range;
     int attack;
 
     Normal_attack(float cd_time,float range,int attack);
-    void release();
+    Skill* clone();
+    void reset();
+    void release(Entity*);
 };
 
 #endif

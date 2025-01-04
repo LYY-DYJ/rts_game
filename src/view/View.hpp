@@ -14,16 +14,19 @@ private:
     std::unordered_map<std::string, sf::Texture> entity_texture;
     std::unordered_map<int, sf::Sprite> entity_sprites;
 
-    // 更新每个unit的图形
-    void update_sprites(const std::vector<Entity> &units);
     
 public:
     sf::RenderWindow* window;
     Model* model;
     View(Model* model,sf::RenderWindow* window);
 
+    // 更新每个unit的图形
+    void update_sprites(const std::vector<Entity> &units,const std::vector<int> erase_list);
+
+    void erase_sprite(int id);
+
     void draw_all();
-    // 画每个unit
+    // 画每个entity
     void draw_entities();
     // 移动主视角
     void main_view_move(int x,int y);

@@ -91,6 +91,8 @@ void True_entity_factory::generate(int i,sf::Vector2f owner_postion)
 Entity::Entity()
 {
     id=-1;
+    health=100;
+    entity_state=IDLE;
     model=nullptr;
     texture="dumb.jpg";
     moveable=new No_move(sf::Vector2f(0,0));
@@ -103,6 +105,8 @@ Entity::Entity(int i,Entity_type et,std::string t,Model* mo,Moveable* m,Entity_f
     id=i;
     entity_type=et;
     texture=t;
+    health=100;
+    entity_state=IDLE;
     model=mo;
     moveable=m;
     entity_factory=f;
@@ -112,7 +116,11 @@ Entity::Entity(int i,Entity_type et,std::string t,Model* mo,Moveable* m,Entity_f
 Entity::Entity(const Entity& e)
 {
     id=e.id;
+    entity_type=e.entity_type;
     texture=e.texture;
+    health=e.health;
+    entity_state=e.entity_state;
+    model=e.model;
     moveable=e.moveable->clone();
     entity_factory=e.entity_factory->clone();
     strategy=e.strategy->clone();
@@ -128,7 +136,11 @@ Entity::~Entity()
 void Entity::operator=(Entity& e)
 {
     id=e.id;
+    entity_type=e.entity_type;
     texture=e.texture;
+    health=e.health;
+    entity_state=e.entity_state;
+    model=e.model;
     moveable=e.moveable->clone();
     entity_factory=e.entity_factory->clone();
     strategy=e.strategy->clone();

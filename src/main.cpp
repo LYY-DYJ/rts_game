@@ -11,7 +11,7 @@ int main()
     window.setFramerateLimit(60);
     Model model;
     View view(&model,&window);
-    Controller controller(&window,&view);
+    Controller controller(&window,&model,&view);
     
 
     // 初始化一些单位

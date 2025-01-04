@@ -4,8 +4,17 @@
 #include "Model.hpp"
 #include "View.hpp"
 
-void View::update_sprites(const std::vector<Entity> &entities)
+void View::erase_sprite(int id)
 {
+    entity_sprites.erase(id);
+}
+
+void View::update_sprites(const std::vector<Entity> &entities,const std::vector<int> erase_vector)
+{
+    for (const int &i:erase_vector)
+    {
+        entity_sprites.erase(i);
+    }
     for (const Entity &entity : entities)
     {
         sf::Texture texture;
@@ -14,8 +23,11 @@ void View::update_sprites(const std::vector<Entity> &entities)
             sf::Sprite sprite;
             entity_texture[entity.texture] = texture;
             sprite.setTexture(entity_texture[entity.texture]);
-            sprite.setPosition(entity.moveable->position);
             sprite.setScale(sf::Vector2f(0.2, 0.2));
+            sf::Vector2f sprite_scale=sprite.getScale();
+            sprite.setPosition(entity.moveable->position-0.5f*sprite_scale);
+            if(entity.entity_state==ATTACKTED)
+                sprite.setColor(sf::Color(255,128,128));
             entity_sprites[entity.id] = sprite;
         }
         else 
@@ -37,7 +49,7 @@ void View::draw_all()
 
 void View::draw_entities()
 {
-    update_sprites(model->entity_vector());
+    update_sprites(model->entity_vector(),model->erase_vector);
     for (const auto &[id, sprite] : entity_sprites)
     {
         window->draw(sprite);
