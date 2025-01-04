@@ -2,6 +2,13 @@
 #include<SFML/Graphics.hpp>
 #include"Model.hpp"
 
+Strategy* No_strategy::clone()
+{
+    Strategy* new_strategy;
+    new_strategy =new No_strategy;
+    return new_strategy;
+}
+
 Random_strategy::Random_strategy(int r)
 {
     refresh_gap=sf::milliseconds(r);

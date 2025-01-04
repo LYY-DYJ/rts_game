@@ -1,0 +1,3 @@
+add_library(utils STATIC utils.cpp)
+target_link_libraries(utils PRIVATE sfml-graphics)
+target_include_directories(utils PUBLIC .)

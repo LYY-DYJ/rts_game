@@ -4,7 +4,7 @@
 
 Moveable::Moveable()
 {
-    move_type=no_move;
+    move_type=NO_MOVE;
     position=sf::Vector2f(0,0);
     speed=0;
 }
@@ -12,7 +12,7 @@ Moveable::Moveable()
 
 No_move::No_move(sf::Vector2f pos)
 {
-    move_type=no_move;
+    move_type=NO_MOVE;
     position=pos;
 }
 Moveable* No_move::clone()
@@ -25,7 +25,7 @@ void No_move::move(sf::Vector2f direction){}
 
 Walk::Walk(sf::Vector2f pos,float spd)
 {
-    move_type=walk;
+    move_type=WALK;
     position=pos;
     speed=spd;
 }
@@ -91,16 +91,19 @@ void True_entity_factory::generate(int i,sf::Vector2f owner_postion)
 Entity::Entity()
 {
     id=-1;
+    model=nullptr;
     texture="dumb.jpg";
     moveable=new No_move(sf::Vector2f(0,0));
     entity_factory = new False_entity_factory();
-    strategy = new Random_strategy(1000);
+    strategy = new No_strategy();
 }
 
-Entity::Entity(int i,std::string t,Moveable* m,Entity_factory* f,Strategy* s)
+Entity::Entity(int i,Entity_type et,std::string t,Model* mo,Moveable* m,Entity_factory* f,Strategy* s)
 {
     id=i;
+    entity_type=et;
     texture=t;
+    model=mo;
     moveable=m;
     entity_factory=f;
     strategy=s;

@@ -3,10 +3,64 @@
 #include<unordered_map>
 #include<SFML/Graphics.hpp>
 class Model;
+class Model_event;
+class Entity;
 class Entity_factory;
+class Moveable;
 class Strategy;
+class Skill;
 
-enum Move_type{no_move,walk};
+class Model
+{
+public:
+    int id_max;
+    std::unordered_map<int,Entity> entities;
+    std::vector<Model_event> events;
+    Model();
+    void add_entity(Entity entity);
+    std::vector<Entity> entity_vector();
+    std::vector<Entity> entity_in_range(sf::Vector2f point,float range);
+    Entity* entity_closest(sf::Vector2f point,float range);
+    void entities_act();
+    void settle_event();
+    void update();
+};
+
+class Model_event
+{
+    virtual void settle()=0;
+};
+
+class Normal_attack_event
+{
+    int attack;
+    int id;
+    void settle();
+};
+
+enum Entity_type{UNIT,BUILDING,TERRAIN};
+
+class Entity
+{
+public:
+    int id;
+    Entity_type entity_type;
+    std::string texture;
+    Model* model;
+    Moveable* moveable;
+    Entity_factory* entity_factory;
+    Strategy* strategy;
+    Skill* skill;
+    Entity();
+    Entity(const Entity&);
+    ~Entity();
+    Entity(int id,Entity_type entity_type,std::string texture,Model* model,Moveable* moveable,Entity_factory* entity_factory,Strategy* strategy);
+    void operator=(Entity&);
+    void set_id(int id);
+    void act();
+};
+
+enum Move_type{NO_MOVE,WALK};
 
 class Moveable
 {
@@ -34,35 +88,6 @@ public:
     Walk(sf::Vector2f position,float speed);
     Moveable* clone();
     void move(sf::Vector2f direction);
-};
-
-class Entity
-{
-public:
-    Model* model;
-    int id;
-    std::string texture;
-    Moveable* moveable;
-    Entity_factory* entity_factory;
-    Strategy* strategy;
-    Entity();
-    Entity(const Entity&);
-    ~Entity();
-    Entity(int id,std::string texture,Moveable* moveable,Entity_factory* entity_factory,Strategy* strategy);
-    void operator=(Entity&);
-    void set_id(int id);
-    void act();
-};
-
-class Model
-{
-public:
-    int id_max;
-    std::unordered_map<int,Entity> entities;
-    Model();
-    void add_entity(Entity entity);
-    std::vector<Entity> entity_vector();
-    void update();
 };
 
 class Entity_factory
@@ -106,6 +131,15 @@ public:
     ~Strategy(){};
 };
 
+class No_strategy:public Strategy
+{
+public:
+    No_strategy(){};
+    void reset(){};
+    Strategy* clone();
+    void control(Entity* entity){};
+};
+
 class Random_strategy: public Strategy
 {
 private:
@@ -138,8 +172,13 @@ public:
 class Normal_attack:Skill
 {
 public:
+    bool available;
     float cd_time;//as millisecond
     float range;
-    
+    int attack;
+
+    Normal_attack(float cd_time,float range,int attack);
+    void release();
 };
+
 #endif
