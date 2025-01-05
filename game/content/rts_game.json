@@ -5,6 +5,7 @@
       "entity_type": "BUILDING",
       "texture": "shuai_jimao.jpg",
       "position": [100, 450],
+      "bulk":[200,200],
       "max_health": 2000,
       "moveable": {
         "move_type": "No_move"
@@ -17,6 +18,7 @@
             "entity_type": "UNIT",
             "texture": "caiji_xiaobai.jpg",
             "position": [100, 100],
+            "bulk":[50,50],
             "max_health": 100,
             "moveable": {
               "move_type": "Walk",
@@ -38,6 +40,7 @@
             "entity_type": "UNIT",
             "texture": "jian_jimao.jpg",
             "position": [100, 100],
+            "bulk":[50,50],
             "max_health": 300,
             "moveable": {
               "move_type": "Walk",
@@ -59,6 +62,7 @@
             "entity_type": "UNIT",
             "texture": "qishi_jimao.jpg",
             "position": [100, 100],
+            "bulk":[50,50],
             "max_health": 1000,
             "moveable": {
               "move_type": "Walk",
@@ -90,6 +94,7 @@
       "entity_type": "BUILDING",
       "texture": "lajitong_qingwa.png",
       "position": [1500, 450],
+      "bulk":[200,200],
       "max_health": 2000,
       "moveable": {
         "move_type": "No_move"
@@ -102,6 +107,7 @@
             "entity_type": "UNIT",
             "texture": "shengqi_qingwa.png",
             "position": [100, 100],
+            "bulk":[50,50],
             "max_health": 100,
             "moveable": {
               "move_type": "Walk",
@@ -123,6 +129,7 @@
             "entity_type": "UNIT",
             "texture": "baoku_qingwa.png",
             "position": [100, 100],
+            "bulk":[50,50],
             "max_health": 300,
             "moveable": {
               "move_type": "Walk",
@@ -144,6 +151,7 @@
             "entity_type": "UNIT",
             "texture": "shuohua_qingwa.png",
             "position": [100, 100],
+            "bulk":[50,50],
             "max_health": 1000,
             "moveable": {
               "move_type": "Walk",

@@ -9,7 +9,7 @@ void View::erase_id(int id)
     entity_sprites.erase(id);
     entities_health_bar.erase(id);
     entities_max_health_bar.erase(id);
-    entities_position_circle.erase(id);
+    // entities_position_circle.erase(id);
 }
 
 void View::update_sprites(const std::vector<Entity *> entities, const std::vector<int> erase_vector)
@@ -23,14 +23,13 @@ void View::update_sprites(const std::vector<Entity *> entities, const std::vecto
         sf::Texture texture;
         if (textures.count("img/" + entity->texture) || texture.loadFromFile("img/" + entity->texture))
         {
-            sf::Vector2f display_size(50, 50);
             sf::Sprite sprite;
             textures[entity->texture] = texture;
             sprite.setTexture(textures[entity->texture]);
-            sprite.setScale(sf::Vector2f(display_size.x / texture.getSize().x, display_size.y / texture.getSize().y));
+            sprite.setScale(sf::Vector2f(entity->bulk.x / texture.getSize().x, entity->bulk.y / texture.getSize().y));
             sf::Vector2f sprite_scale = sprite.getScale();
             sprite.setPosition(entity->position - sf::Vector2f(25, 25));
-            update_entity_position_circle(entity);
+            // update_entity_position_circle(entity);
             if (entity->entity_state == ATTACKTED)
                 sprite.setColor(sf::Color(255, 128, 128));
             if (entity->entity_type == UNIT || entity->entity_type == BUILDING)
@@ -80,7 +79,7 @@ void View::update_entity_position_circle(const Entity *entity)
 
 View::View(Model *m, sf::RenderWindow *w) : model(m), window(w), move_speed(10), main_view(sf::FloatRect(0.f, 0.f, 800.f, 450.f)), zoom_rate(0.02)
 {
-    main_view_size=main_view.getSize();
+    main_view_size = main_view.getSize();
     if (!font.loadFromFile("font/BAUHS93.TTF"))
     {
         std::cerr << "Could not load font" << std::endl;
@@ -129,19 +128,19 @@ void View::main_view_move(int x, int y)
 
 void View::main_view_zoom(int r)
 {
-    if (r > 0&&zoom_factor>zoom_rate)
+    if (r > 0 && zoom_factor > zoom_rate)
     {
         zoom_factor -= zoom_rate;
-        main_view.setSize(main_view_size*zoom_factor);
+        main_view.setSize(main_view_size * zoom_factor);
         text.setCharacterSize(50 / zoom_factor);
-        text.setScale(1-zoom_rate,1-zoom_rate);
+        text.setScale(1 - zoom_rate, 1 - zoom_rate);
     }
     else if (r < 0)
     {
         zoom_factor += zoom_rate;
-        main_view.setSize(main_view_size*zoom_factor);
+        main_view.setSize(main_view_size * zoom_factor);
         text.setCharacterSize(50 / zoom_factor);
-        text.setScale(1+zoom_rate,1+zoom_rate);
+        text.setScale(1 + zoom_rate, 1 + zoom_rate);
     }
 }
 

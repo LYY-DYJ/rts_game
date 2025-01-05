@@ -7,6 +7,7 @@ Entity::Entity()
     id=-1;
     curr_health=max_health=100;
     position=sf::Vector2f(0,0);
+    bulk=sf::Vector2f(0,0);
     entity_state=IDLE;
     model=nullptr;
     texture="dumb.jpg";
@@ -16,12 +17,13 @@ Entity::Entity()
     skill = new No_skill();
 }
 
-Entity::Entity(int faction,Entity_type et,std::string t,sf::Vector2f p,int max_h,Moveable* m,Entity_factory* f,Strategy* s,Skill* sk)
+Entity::Entity(int faction,Entity_type et,std::string t,sf::Vector2f p,sf::Vector2f b,int max_h,Moveable* m,Entity_factory* f,Strategy* s,Skill* sk)
 {
     this->faction=faction;
     entity_type=et;
     texture=t;
     position=p;
+    bulk=b;
     curr_health=max_health=max_h;
     entity_state=IDLE;
     moveable=m;
@@ -37,6 +39,7 @@ Entity::Entity(const Entity& e)
     entity_type=e.entity_type;
     texture=e.texture;
     position=e.position;
+    bulk=e.bulk;
     max_health=e.max_health;
     curr_health=e.curr_health;
     entity_state=e.entity_state;
@@ -62,6 +65,7 @@ void Entity::operator=(Entity& e)
     entity_type=e.entity_type;
     texture=e.texture;
     position=e.position;
+    bulk=e.bulk;
     max_health=e.max_health;
     curr_health=e.curr_health;
     entity_state=e.entity_state;
@@ -102,11 +106,12 @@ Entity* Entity::create_from_json(json entity_json)
     std::string texture=entity_json["texture"];
     int max_health=entity_json["max_health"];
     sf::Vector2f position=sf::Vector2f(entity_json["position"][0],entity_json["position"][1]);
+    sf::Vector2f bulk=sf::Vector2f(entity_json["bulk"][0],entity_json["bulk"][1]);
     Moveable* moveable=Moveable::create_from_json(entity_json["moveable"]);
     Entity_factory* entity_factory=Entity_factory::create_from_json(entity_json["entity_factory"]);
     Strategy* strategy=Strategy::create_from_json(entity_json["strategy"]);
     Skill* skill=Skill::create_from_json(entity_json["skill"]);
-    Entity* new_entity =new Entity(entity_faction,entity_type,texture,position,max_health,moveable,entity_factory,strategy,skill);
+    Entity* new_entity =new Entity(entity_faction,entity_type,texture,position,bulk,max_health,moveable,entity_factory,strategy,skill);
     return new_entity;
 }
 

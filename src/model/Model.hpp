@@ -73,6 +73,7 @@ public:
     Entity_type entity_type;
     std::string texture;
     sf::Vector2f position;
+    sf::Vector2f bulk;
     int max_health;
     int curr_health;    
     Entity_state entity_state;
@@ -85,7 +86,7 @@ public:
     Entity(const Entity&);
     ~Entity();
     
-    Entity(int faction,Entity_type entity_type,std::string texture,sf::Vector2f position,int max_health,Moveable* moveable,Entity_factory* entity_factory,Strategy* strategy,Skill* skill);
+    Entity(int faction,Entity_type entity_type,std::string texture,sf::Vector2f position,sf::Vector2f bulk,int max_health,Moveable* moveable,Entity_factory* entity_factory,Strategy* strategy,Skill* skill);
     void operator=(Entity&);
     void set_id(int id);
     void act();
