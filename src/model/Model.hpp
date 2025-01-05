@@ -67,6 +67,7 @@ public:
     int id;
     Entity_type entity_type;
     std::string texture;
+    sf::Vector2f position;
     int max_health;
     int curr_health;    
     Entity_state entity_state;
@@ -90,28 +91,27 @@ class Moveable
 {
 public:
     Move_type move_type;
-    sf::Vector2f position;
     float speed;
     Moveable();
     virtual Moveable* clone()=0;
-    virtual void move(sf::Vector2f direction)=0;
+    virtual void move(Entity* owner,sf::Vector2f direction)=0;
 
 };
 
 class No_move:public Moveable
 {
 public:
-    No_move(sf::Vector2f position);
+    No_move();
     Moveable* clone();
-    void move(sf::Vector2f direction);
+    void move(Entity* owner,sf::Vector2f direction);
 };
 
 class Walk:public Moveable
 {
 public:
-    Walk(sf::Vector2f position,float speed);
+    Walk(float speed);
     Moveable* clone();
-    void move(sf::Vector2f direction);
+    void move(Entity* owner,sf::Vector2f direction);
 };
 
 class Entity_factory

@@ -5,15 +5,13 @@
 Moveable::Moveable()
 {
     move_type=NO_MOVE;
-    position=sf::Vector2f(0,0);
     speed=0;
 }
 
 
-No_move::No_move(sf::Vector2f pos)
+No_move::No_move()
 {
     move_type=NO_MOVE;
-    position=pos;
 }
 Moveable* No_move::clone()
 {
@@ -21,12 +19,11 @@ Moveable* No_move::clone()
     new_moveable = new No_move(*this);
     return new_moveable;
 }
-void No_move::move(sf::Vector2f direction){}
+void No_move::move(Entity* entity,sf::Vector2f direction){}
 
-Walk::Walk(sf::Vector2f pos,float spd)
+Walk::Walk(float spd)
 {
     move_type=WALK;
-    position=pos;
     speed=spd;
 }
 
@@ -37,9 +34,9 @@ Moveable* Walk::clone()
     return new_moveable;
 }
 
-void Walk::move(sf::Vector2f direction)
+void Walk::move(Entity* entity,sf::Vector2f direction)
 {
-    position+=direction*speed;
+    entity->position+=direction*speed;
 }
 
 False_entity_factory::False_entity_factory()
@@ -84,7 +81,7 @@ void True_entity_factory::generate(int i,sf::Vector2f owner_postion)
         return;
     new_entity=produceable_entity.at(i);
     new_entity.curr_health=new_entity.max_health;
-    new_entity.moveable->position=relative_position+owner_postion;
+    new_entity.position=relative_position+owner_postion;
     new_entity.strategy->reset();
     model->add_entity(new_entity);
 }
@@ -93,10 +90,11 @@ Entity::Entity()
 {
     id=-1;
     curr_health=max_health=100;
+    position=sf::Vector2f(0,0);
     entity_state=IDLE;
     model=nullptr;
     texture="dumb.jpg";
-    moveable=new No_move(sf::Vector2f(0,0));
+    moveable=new No_move();
     entity_factory = new False_entity_factory();
     strategy = new No_strategy();
     skill = new No_skill();
@@ -107,6 +105,7 @@ Entity::Entity(int i,Entity_type et,std::string t,Model* mo,Moveable* m,Entity_f
     id=i;
     entity_type=et;
     texture=t;
+    position=sf::Vector2f(0,0);
     curr_health=max_health=100;
     entity_state=IDLE;
     model=mo;
@@ -121,6 +120,7 @@ Entity::Entity(const Entity& e)
     id=e.id;
     entity_type=e.entity_type;
     texture=e.texture;
+    position=e.position;
     max_health=e.max_health;
     curr_health=e.curr_health;
     entity_state=e.entity_state;
@@ -144,6 +144,7 @@ void Entity::operator=(Entity& e)
     id=e.id;
     entity_type=e.entity_type;
     texture=e.texture;
+    position=e.position;
     max_health=e.max_health;
     curr_health=e.curr_health;
     entity_state=e.entity_state;

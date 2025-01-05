@@ -35,13 +35,13 @@ void Random_strategy::control(Entity* entity)
         direction=sf::Vector2f(1,0);
         initial=false;
     }
-    entity->moveable->move(direction);
+    entity->moveable->move(entity,direction);
     if(clk.getElapsedTime()>=refresh_gap)
     {
         clk.restart();
         int rand_num=rand()%4;
         direction=sf::Vector2f(rand_num/2-0.5,rand_num%2-0.5);
         if(entity->entity_factory->entity_num!=0)
-            entity->entity_factory->generate(rand_num%entity->entity_factory->entity_num,entity->moveable->position);
+            entity->entity_factory->generate(rand_num%entity->entity_factory->entity_num,entity->position);
     }
 }

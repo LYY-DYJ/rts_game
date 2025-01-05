@@ -26,7 +26,7 @@ std::vector<Entity> Model::entity_in_range(sf::Vector2f point,float range)
     std::vector<Entity> ev;
     for(auto& [id, entity] : entities)
     {
-       if(distance(entity.moveable->position,point)<range)
+       if(distance(entity.position,point)<range)
        {
             ev.push_back(entity);
        }
@@ -40,7 +40,7 @@ Entity* Model::entity_closest(sf::Vector2f point,float range)
     float min_d=-1;
     for(auto& [id, entity] : entities)
     {
-        float d=distance(entity.moveable->position,point);
+        float d=distance(entity.position,point);
         if(d<range&&(d<min_d||min_d<0))
         {
             min_d=d;

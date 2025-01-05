@@ -31,7 +31,7 @@ void Normal_attack::reset()
 
 void Normal_attack::release(Entity* entity)
 {
-    int target_id=entity->model->entity_closest(entity->moveable->position,range)->id;
+    int target_id=entity->model->entity_closest(entity->position,range)->id;
     Model_event* e=new Normal_attack_event(target_id,attack);
     entity->model->events_queue.push(e);
 }
