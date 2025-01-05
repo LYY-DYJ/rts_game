@@ -1,48 +1,174 @@
 {
-    "base": [
-      {
-        "faction":1,
-        "entity_type": "UNIT",
-        "texture": "dun_jimao.jpg",
-        "position": [100, 100],
-        "max_health": 200,
-        "moveable": {
-          "move_type": "Walk",
-          "speed": 4
-        },
-        "entity_factory": {
-          "entity_factory_type": "True_entity_factory",
-          "produceable_entity": [
-            {
-              "faction":1,
-              "entity_type": "UNIT",
-              "texture": "caiji_xiaobai.jpg",
-              "position": [100, 100],
-              "max_health": 200,
-              "moveable": {
-                "move_type": "Walk",
-                "speed": 4
-              },
-              "entity_factory": {
-                "entity_factory_type": "False_entity_factory"
-              },
-              "strategy": {
-                "strategy_type": "Random_strategy",
-                "refresh_gap": 1000
-              },
-              "skill": {
-                "skill_type": "No_skill"
-              }
+  "base": [
+    {
+      "faction": 1,
+      "entity_type": "BUILDING",
+      "texture": "shuai_jimao.jpg",
+      "position": [100, 450],
+      "max_health": 2000,
+      "moveable": {
+        "move_type": "No_move"
+      },
+      "entity_factory": {
+        "entity_factory_type": "True_entity_factory",
+        "produceable_entity": [
+          {
+            "faction": 1,
+            "entity_type": "UNIT",
+            "texture": "caiji_xiaobai.jpg",
+            "position": [100, 100],
+            "max_health": 100,
+            "moveable": {
+              "move_type": "Walk",
+              "speed": 4
+            },
+            "entity_factory": {
+              "entity_factory_type": "False_entity_factory"
+            },
+            "strategy": {
+              "strategy_type": "Random_strategy",
+              "refresh_gap": 1000
+            },
+            "skill": {
+              "skill_type": "No_skill"
             }
-          ]
-        },
-        "strategy": {
-          "strategy_type": "Random_strategy",
-          "refresh_gap": 1000
-        },
-        "skill": {
-          "skill_type": "No_skill"
-        }
+          },
+          {
+            "faction": 1,
+            "entity_type": "UNIT",
+            "texture": "jian_jimao.jpg",
+            "position": [100, 100],
+            "max_health": 300,
+            "moveable": {
+              "move_type": "Walk",
+              "speed": 4
+            },
+            "entity_factory": {
+              "entity_factory_type": "False_entity_factory"
+            },
+            "strategy": {
+              "strategy_type": "Random_strategy",
+              "refresh_gap": 1000
+            },
+            "skill": {
+              "skill_type": "No_skill"
+            }
+          },
+          {
+            "faction": 1,
+            "entity_type": "UNIT",
+            "texture": "qishi_jimao.jpg",
+            "position": [100, 100],
+            "max_health": 1000,
+            "moveable": {
+              "move_type": "Walk",
+              "speed": 4
+            },
+            "entity_factory": {
+              "entity_factory_type": "False_entity_factory"
+            },
+            "strategy": {
+              "strategy_type": "Random_strategy",
+              "refresh_gap": 1000
+            },
+            "skill": {
+              "skill_type": "No_skill"
+            }
+          }
+        ]
+      },
+      "strategy": {
+        "strategy_type": "Random_strategy",
+        "refresh_gap": 1000
+      },
+      "skill": {
+        "skill_type": "No_skill"
       }
-    ]
-  }
+    },
+    {
+      "faction": 2,
+      "entity_type": "BUILDING",
+      "texture": "lajitong_qingwa.png",
+      "position": [1500, 450],
+      "max_health": 2000,
+      "moveable": {
+        "move_type": "No_move"
+      },
+      "entity_factory": {
+        "entity_factory_type": "True_entity_factory",
+        "produceable_entity": [
+          {
+            "faction": 1,
+            "entity_type": "UNIT",
+            "texture": "shengqi_qingwa.png",
+            "position": [100, 100],
+            "max_health": 100,
+            "moveable": {
+              "move_type": "Walk",
+              "speed": 4
+            },
+            "entity_factory": {
+              "entity_factory_type": "False_entity_factory"
+            },
+            "strategy": {
+              "strategy_type": "Random_strategy",
+              "refresh_gap": 1000
+            },
+            "skill": {
+              "skill_type": "No_skill"
+            }
+          },
+          {
+            "faction": 1,
+            "entity_type": "UNIT",
+            "texture": "baoku_qingwa.png",
+            "position": [100, 100],
+            "max_health": 300,
+            "moveable": {
+              "move_type": "Walk",
+              "speed": 4
+            },
+            "entity_factory": {
+              "entity_factory_type": "False_entity_factory"
+            },
+            "strategy": {
+              "strategy_type": "Random_strategy",
+              "refresh_gap": 1000
+            },
+            "skill": {
+              "skill_type": "No_skill"
+            }
+          },
+          {
+            "faction": 1,
+            "entity_type": "UNIT",
+            "texture": "shuohua_qingwa.png",
+            "position": [100, 100],
+            "max_health": 1000,
+            "moveable": {
+              "move_type": "Walk",
+              "speed": 4
+            },
+            "entity_factory": {
+              "entity_factory_type": "False_entity_factory"
+            },
+            "strategy": {
+              "strategy_type": "Random_strategy",
+              "refresh_gap": 1000
+            },
+            "skill": {
+              "skill_type": "No_skill"
+            }
+          }
+        ]
+      },
+      "strategy": {
+        "strategy_type": "Random_strategy",
+        "refresh_gap": 1000
+      },
+      "skill": {
+        "skill_type": "No_skill"
+      }
+    }
+  ]
+}

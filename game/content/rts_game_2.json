@@ -1,0 +1,48 @@
+{
+  "base": [
+    {
+      "faction": 1,
+      "entity_type": "UNIT",
+      "texture": "dun_jimao.jpg",
+      "position": [100, 100],
+      "max_health": 200,
+      "moveable": {
+        "move_type": "Walk",
+        "speed": 4
+      },
+      "entity_factory": {
+        "entity_factory_type": "True_entity_factory",
+        "produceable_entity": [
+          {
+            "faction": 1,
+            "entity_type": "UNIT",
+            "texture": "caiji_xiaobai.jpg",
+            "position": [100, 100],
+            "max_health": 200,
+            "moveable": {
+              "move_type": "Walk",
+              "speed": 4
+            },
+            "entity_factory": {
+              "entity_factory_type": "False_entity_factory"
+            },
+            "strategy": {
+              "strategy_type": "Random_strategy",
+              "refresh_gap": 1000
+            },
+            "skill": {
+              "skill_type": "No_skill"
+            }
+          }
+        ]
+      },
+      "strategy": {
+        "strategy_type": "Random_strategy",
+        "refresh_gap": 1000
+      },
+      "skill": {
+        "skill_type": "No_skill"
+      }
+    }
+  ]
+}
