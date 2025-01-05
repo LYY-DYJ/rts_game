@@ -24,9 +24,16 @@ int Model::add_entity(Entity* entity)
     return id_max;
 }
 
+int Model::add_base(Entity* entity)
+{
+    int id=add_entity(entity);
+    base_faction_id[entity->faction]=id;
+    return id;
+}
+
 void Model::attack(int id)
 {
-    Model_event* e=new Normal_attack_event(id,30);
+    Model_event* e=new Normal_attack_event(id,500);
     events_queue.push(e);
 }
 

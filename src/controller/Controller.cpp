@@ -133,19 +133,15 @@ void Controller::rts_game_initialize(std::string rts_json_file)
     for (const auto &base_json : json_info["base"])
     {
         std::cout << base_json << std::endl;
-        int id=add_entity_from_json(base_json);
+        int id=model->add_base(
+        Entity::create_from_json(base_json));
         int faction=base_json["faction"];
         base_id_faction[id]=faction;
     }
     for (const auto &entity_json : json_info["entities"])
     {
         std::cout << entity_json << std::endl;
-        add_entity_from_json(entity_json);
-    }
-}
-
-int Controller::add_entity_from_json(json entity_json)
-{
-    return model->add_entity(
+        model->add_entity(
         Entity::create_from_json(entity_json));
+    }
 }

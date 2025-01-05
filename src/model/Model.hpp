@@ -24,9 +24,11 @@ public:
     std::unordered_map<int,Entity*> entities;//Model doesn't create entity but hold it and delete it
     std::queue<Model_event*> events_queue;
     std::queue<Model_event*> events_wait_queue;
+    std::unordered_map<int,int> base_faction_id;
     Model();
     ~Model();
     int add_entity(Entity* entity);
+    int add_base(Entity* entity);
     void attack(int id);
     std::vector<Entity*> entity_vector();
     std::vector<Entity*> entity_in_range(sf::Vector2f point,float range);
