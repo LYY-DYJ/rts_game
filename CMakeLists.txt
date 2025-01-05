@@ -14,4 +14,11 @@ FetchContent_Declare(SFML
     SYSTEM)
 FetchContent_MakeAvailable(SFML)
 
+FetchContent_Declare(json
+    GIT_REPOSITORY https://github.com/nlohmann/json
+    GIT_TAG v3.11.3
+)
+FetchContent_MakeAvailable(json)
+
+
 install(DIRECTORY game/img DESTINATION ${PROJECT_BINARY_DIR}/rts_game)

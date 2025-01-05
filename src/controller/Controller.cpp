@@ -1,7 +1,10 @@
 #include <SFML/Graphics.hpp>
+#include <nlohmann/json.hpp>
 #include "Model.hpp"
 #include "View.hpp"
 #include "Controller.hpp"
+
+using json = nlohmann::json;
 
 Controller::Controller(sf::RenderWindow *w,Model* m,View* v)
 {
@@ -58,3 +61,4 @@ void Controller::handleInput()
     view_move(mouse_position);
 
 }
+
