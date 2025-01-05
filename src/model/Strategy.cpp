@@ -2,6 +2,24 @@
 #include<SFML/Graphics.hpp>
 #include"Model.hpp"
 
+Strategy* Strategy::create_from_json(json strategy_json)
+{
+    if(strategy_json["strategy_type"]=="No_strategy")
+    {
+        return new No_strategy();
+    }
+    if(strategy_json["strategy_type"]=="Random_strategy")
+    {
+        return new Random_strategy(strategy_json["refresh_gap"]);
+    }
+    else
+    {
+        std::cout<<"Unknown strategy_type"<<std::endl;
+        return new No_strategy();
+    }
+}
+
+
 Strategy* No_strategy::clone()
 {
     Strategy* new_strategy;
@@ -42,6 +60,6 @@ void Random_strategy::control(Entity* entity)
         int rand_num=rand()%4;
         direction=sf::Vector2f(rand_num/2-0.5,rand_num%2-0.5);
         if(entity->entity_factory->entity_num!=0)
-            entity->entity_factory->generate(rand_num%entity->entity_factory->entity_num,entity->position);
+            entity->entity_factory->generate(entity,rand_num%entity->entity_factory->entity_num);
     }
 }

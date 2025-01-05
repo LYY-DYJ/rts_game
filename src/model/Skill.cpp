@@ -1,6 +1,23 @@
 #include<SFML/Graphics.hpp>
 #include"Model.hpp"
 
+Skill* Skill::create_from_json(json skill_json)
+{
+    if(skill_json["skill_type"]=="No_skill")
+    {
+        return new No_skill();
+    }
+    else if(skill_json["skill_type"]=="Normal_attack")
+    {
+        return new Normal_attack(skill_json["cd_time"],skill_json["range"],skill_json["attack"]);
+    }
+    else
+    {
+        std::cout<<"Unknown skill_type"<<std::endl;
+        return new No_skill();
+    }
+}
+
 Skill* No_skill::clone()
 {
     Skill* new_skill;

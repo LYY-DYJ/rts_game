@@ -94,10 +94,15 @@ Entity_type Entity::str2entity_type(std::string str)
 
 Entity* Entity::create_from_json(json entity_json)
 {
-    Entity* new_entity = new Entity;
     Entity_type entity_type=Entity::str2entity_type(entity_json["entity_type"]);
+    std::string texture=entity_json["texture"];
     int max_health=entity_json["max_health"];
     sf::Vector2f position=sf::Vector2f(entity_json["position"][0],entity_json["position"][1]);
+    Moveable* moveable=Moveable::create_from_json(entity_json["moveable"]);
+    Entity_factory* entity_factory=Entity_factory::create_from_json(entity_json["entity_factory"]);
+    Strategy* strategy=Strategy::create_from_json(entity_json["strategy"]);
+    Skill* skill=Skill::create_from_json(entity_json["skill"]);
+    Entity* new_entity =new Entity(entity_type,texture,position,max_health,moveable,entity_factory,strategy,skill);
     return new_entity;
 }
 

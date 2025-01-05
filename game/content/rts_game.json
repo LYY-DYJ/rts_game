@@ -1,62 +1,46 @@
 {
-    "enities":
-    [
-      {
-        "entity_type": "UNIT",
-        "texture":"shuai_jimao.jpg",
-        "position":[100,100],
-        "max_health":200,
-        "moveable":
-        {
-          "move_type":"Walk",
-          "speed":4
-        },
-        "entity_factory":null,
-        "strategy":"Random_strategy",
-        "skill":null
+  "entities": [
+    {
+      "entity_type": "UNIT",
+      "texture": "shuai_jimao.jpg",
+      "position": [100, 100],
+      "max_health": 200,
+      "moveable": {
+        "move_type": "Walk",
+        "speed": 4
       },
-      {
-        "entity_type": "UNIT",
-        "texture":"wuyu_xiaobai.jpg",
-        "position":[200,200],
-        "max_health":100,
-        "moveable":
-        {
-          "move_type":"Walk",
-          "speed":4
-        },
-        "entity_factory":[
+      "entity_factory": {
+        "entity_factory_type": "True_entity_factory",
+        "produceable_entity": [
           {
             "entity_type": "UNIT",
-            "texture":"shuai_jimao.jpg",
-            "position":[100,100],
-            "max_health":200,
-            "moveable":
-            {
-              "move_type":"Walk",
-              "speed":4
+            "texture": "wuyu_xiaobai.jpg",
+            "position": [100, 100],
+            "max_health": 200,
+            "moveable": {
+              "move_type": "Walk",
+              "speed": 4
             },
-            "entity_factory":null,
-            "strategy":"Random_strategy",
-            "skill":null
-          },
-          {
-            "entity_type": "UNIT",
-            "texture":"wuyu_xiaobai.jpg",
-            "position":[100,100],
-            "max_health":100,
-            "moveable":
-            {
-              "move_type":"Walk",
-              "speed":4
+            "entity_factory": {
+              "entity_factory_type": "False_entity_factory"
             },
-            "entity_factory":null,
-            "strategy":"Random_strategy",
-            "skill":null
+            "strategy": {
+              "strategy_type": "Random_strategy",
+              "refresh_gap": 1000
+            },
+            "skill": {
+              "skill_type": "No_skill"
+            }
           }
-        ],
-        "strategy":"Random_strategy",
-        "skill":null
+        ]
+      },
+      "strategy": {
+        "strategy_type": "Random_strategy",
+        "refresh_gap": 1000
+      },
+      "skill": {
+        "skill_type": "No_skill"
       }
-    ]
+    }
+  ]
 }

@@ -3,6 +3,7 @@
 #include<nlohmann/json.hpp>
 #include<unordered_map>
 #include<queue>
+#include<iostream>
 #include<SFML/Graphics.hpp>
 
 using json=nlohmann::json;
@@ -129,7 +130,7 @@ public:
     int entity_num;
     virtual Entity_factory* clone()=0;
     virtual void add_entity(const Entity*)=0;
-    virtual void generate(int i,sf::Vector2f owner_postion)=0;
+    virtual void generate(Entity* owner,int i)=0;
     static Entity_factory* create_from_json(json entity_factory_json);
 };
 
@@ -139,18 +140,17 @@ public:
     False_entity_factory();
     Entity_factory* clone();
     void add_entity(const Entity*){};
-    void generate(int i,sf::Vector2f owner_postion){};
+    void generate(Entity* owner,int i){};
 };
 
 class True_entity_factory:public Entity_factory
 {
 public:
-    Model* model;
     std::vector<Entity*> produceable_entity;//True_entity_factory's Enitity is created by True_entity_factory and hold by itself
-    True_entity_factory(Model* model);
+    True_entity_factory();
     Entity_factory* clone();
     void add_entity(const Entity*);
-    void generate(int i,sf::Vector2f owner_postion);//new a Enitity and provide for model
+    void generate(Entity* owner,int i);//new a Enitity and provide for model
 };
 
 class Strategy
@@ -160,6 +160,7 @@ public:
     virtual Strategy* clone()=0;
     virtual void control(Entity* entity)=0;
     ~Strategy(){};
+    static Strategy* create_from_json(json strategy_json);
 };
 
 class No_strategy:public Strategy
@@ -190,6 +191,7 @@ class Skill
 public:
     virtual Skill* clone()=0;
     virtual void release(Entity*)=0;
+    static Skill* create_from_json(json skill_json);
 };
 
 class No_skill:public Skill

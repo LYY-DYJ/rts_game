@@ -87,14 +87,13 @@ void Controller::rts_game_initialize(std::string rts_json_file)
     json json_info = nlohmann::json::parse(jsonStr);
     for (const auto &entity_json : json_info["entities"])
     {                   
-        std::cout<<entity_json;                 
+        std::cout<<entity_json<<std::endl;                 
         add_entity_from_json(entity_json);
     }
 }
 
 void Controller::add_entity_from_json(json entity_json)
 {
-    Entity_type entity_type=Entity::str2entity_type(entity_json["entity_type"]);
-    int max_health=entity_json["max_health"];
-    sf::Vector2f position=sf::Vector2f(entity_json["position"][0],entity_json["position"][1]);
+    model->add_entity(
+        Entity::create_from_json(entity_json));
 }
