@@ -23,10 +23,11 @@ void View::update_sprites(const std::vector<Entity*> entities, const std::vector
         sf::Texture texture;
         if (texture.loadFromFile("img/" + entity->texture))
         {
+            sf::Vector2f display_size(50,50);
             sf::Sprite sprite;
             textures[entity->texture] = texture;
             sprite.setTexture(textures[entity->texture]);
-            sprite.setScale(sf::Vector2f(0.2, 0.2));
+            sprite.setScale(sf::Vector2f(display_size.x/texture.getSize().x, display_size.y/texture.getSize().y));
             sf::Vector2f sprite_scale = sprite.getScale();
             sprite.setPosition(entity->position-sf::Vector2f(25,25));
             update_entity_position_circle(entity);
@@ -50,7 +51,7 @@ void View::update_health_bar(const Entity* entity)
     float health_bar_length = 50;
     float health_ratio = float(entity->curr_health) / float(entity->max_health);
     sf::RectangleShape health_bar(sf::Vector2f(health_bar_length * health_ratio, health_bar_width));
-    health_bar.setPosition(sf::Vector2f(-20, 50) + entity->position);
+    health_bar.setPosition(sf::Vector2f(-25, 25) + entity->position);
     health_bar.setFillColor(sf::Color::Red);
     entities_health_bar[entity->id] = health_bar;
 }
@@ -61,7 +62,7 @@ void View::update_max_health_bar(const Entity* entity)
     float health_bar_length = 50;
     float out_line_width= 1;
     sf::RectangleShape max_health_bar(sf::Vector2f(health_bar_length,health_bar_width));
-    max_health_bar.setPosition(sf::Vector2f(-20, 50) + entity->position);
+    max_health_bar.setPosition(sf::Vector2f(-25, 25) + entity->position);
     max_health_bar.setFillColor(sf::Color(200,200,200));
     max_health_bar.setOutlineColor(sf::Color::Black);
     max_health_bar.setOutlineThickness(out_line_width);
