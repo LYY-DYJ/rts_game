@@ -67,7 +67,8 @@ public:
     int id;
     Entity_type entity_type;
     std::string texture;
-    int health;    
+    int max_health;
+    int curr_health;    
     Entity_state entity_state;
     Model* model;
     Moveable* moveable;
@@ -77,7 +78,7 @@ public:
     Entity();
     Entity(const Entity&);
     ~Entity();
-    Entity(int id,Entity_type entity_type,std::string texture,Model* model,Moveable* moveable,Entity_factory* entity_factory,Strategy* strategy);
+    Entity(int id,Entity_type entity_type,std::string texture,Model* model,Moveable* moveable,Entity_factory* entity_factory,Strategy* strategy,Skill* skill);
     void operator=(Entity&);
     void set_id(int id);
     void act();
@@ -184,7 +185,7 @@ public:
     virtual void release(Entity*)=0;
 };
 
-class No_skill:Skill
+class No_skill:public Skill
 {
 public:
     No_skill(){};
@@ -192,7 +193,7 @@ public:
     void release(Entity*){};
 };
 
-class Normal_attack:Skill
+class Normal_attack:public Skill
 {
 public:
     sf::Clock clk;

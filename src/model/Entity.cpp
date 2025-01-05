@@ -83,6 +83,7 @@ void True_entity_factory::generate(int i,sf::Vector2f owner_postion)
     if(i>=int(produceable_entity.size())||i<0)
         return;
     new_entity=produceable_entity.at(i);
+    new_entity.curr_health=new_entity.max_health;
     new_entity.moveable->position=relative_position+owner_postion;
     new_entity.strategy->reset();
     model->add_entity(new_entity);
@@ -91,26 +92,28 @@ void True_entity_factory::generate(int i,sf::Vector2f owner_postion)
 Entity::Entity()
 {
     id=-1;
-    health=100;
+    curr_health=max_health=100;
     entity_state=IDLE;
     model=nullptr;
     texture="dumb.jpg";
     moveable=new No_move(sf::Vector2f(0,0));
     entity_factory = new False_entity_factory();
     strategy = new No_strategy();
+    skill = new No_skill();
 }
 
-Entity::Entity(int i,Entity_type et,std::string t,Model* mo,Moveable* m,Entity_factory* f,Strategy* s)
+Entity::Entity(int i,Entity_type et,std::string t,Model* mo,Moveable* m,Entity_factory* f,Strategy* s,Skill* sk)
 {
     id=i;
     entity_type=et;
     texture=t;
-    health=100;
+    curr_health=max_health=100;
     entity_state=IDLE;
     model=mo;
     moveable=m;
     entity_factory=f;
     strategy=s;
+    skill=sk;
 }
 
 Entity::Entity(const Entity& e)
@@ -118,12 +121,14 @@ Entity::Entity(const Entity& e)
     id=e.id;
     entity_type=e.entity_type;
     texture=e.texture;
-    health=e.health;
+    max_health=e.max_health;
+    curr_health=e.curr_health;
     entity_state=e.entity_state;
     model=e.model;
     moveable=e.moveable->clone();
     entity_factory=e.entity_factory->clone();
     strategy=e.strategy->clone();
+    skill=e.skill->clone();
 }
 
 Entity::~Entity()
@@ -131,6 +136,7 @@ Entity::~Entity()
     delete moveable;
     delete entity_factory;
     delete strategy;
+    delete skill;
 }
 
 void Entity::operator=(Entity& e)
@@ -138,12 +144,14 @@ void Entity::operator=(Entity& e)
     id=e.id;
     entity_type=e.entity_type;
     texture=e.texture;
-    health=e.health;
+    max_health=e.max_health;
+    curr_health=e.curr_health;
     entity_state=e.entity_state;
     model=e.model;
     moveable=e.moveable->clone();
     entity_factory=e.entity_factory->clone();
     strategy=e.strategy->clone();
+    skill =e.skill->clone();
 }
 
 void Entity::set_id(int i)

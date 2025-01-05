@@ -11,7 +11,7 @@ bool Normal_attack_event::settle(Model* model)
 {
     if(model->entities.count(id)==0)
         return true;
-    model->entities[id].health-=attack;
+    model->entities[id].curr_health-=attack;
     model->entities[id].entity_state=ATTACKTED;
     Model_event* e=new Reset_idle_event(id);
     model->events_wait_queue.push(e);

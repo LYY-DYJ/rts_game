@@ -11,20 +11,28 @@ private:
     sf::View main_view;
     float move_speed;
     float zoom_rate;
-    std::unordered_map<std::string, sf::Texture> entity_texture;
+    std::unordered_map<std::string, sf::Texture> textures;
     std::unordered_map<int, sf::Sprite> entity_sprites;
+    std::unordered_map<int, sf::RectangleShape> entities_health_bar;
+    std::unordered_map<int, sf::RectangleShape> entities_max_health_bar;
+    std::unordered_map<int, sf::CircleShape> entities_position_circle;
 
-    
 public:
     sf::RenderWindow* window;
     Model* model;
     View(Model* model,sf::RenderWindow* window);
 
     // 更新每个unit的图形
-    void update_sprites(const std::vector<Entity> &units,const std::vector<int> erase_list);
+    void update_sprites(const std::vector<Entity> &entities,const std::vector<int> erase_list);
 
-    void erase_sprite(int id);
+    void update_entity_position_circle(const Entity& entity);
 
+    void update_health_bar(const Entity& entity);
+
+    void update_max_health_bar(const Entity& entity);
+
+    void erase_id(int id);
+    
     void draw_all();
     // 画每个entity
     void draw_entities();
@@ -33,4 +41,10 @@ public:
     // 缩放主视角
     void main_view_zoom(int r);
 };
+
+class Actor
+{
+    
+};
+
 #endif

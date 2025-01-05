@@ -17,7 +17,7 @@ void Model::add_entity(Entity entity)
 
 void Model::attack(int id)
 {
-    Model_event* e=new Normal_attack_event(id,50);
+    Model_event* e=new Normal_attack_event(id,30);
     events_queue.push(e);
 }
 
@@ -92,7 +92,7 @@ void Model::settle_event()
         return;
     for(auto& [id, entity]: entities)
     {
-        if(entity.health<=0)
+        if(entity.curr_health<=0)
         {
             entities.erase(id);
             erase_vector.push_back(id);
