@@ -11,11 +11,17 @@ private:
     sf::View main_view;
     float move_speed;
     float zoom_rate;
+    float zoom_factor = 1.0f;
     std::unordered_map<std::string, sf::Texture> textures;
     std::unordered_map<int, sf::Sprite> entity_sprites;
     std::unordered_map<int, sf::RectangleShape> entities_health_bar;
     std::unordered_map<int, sf::RectangleShape> entities_max_health_bar;
     std::unordered_map<int, sf::CircleShape> entities_position_circle;
+    std::string text_to_display;
+    sf::Font font;
+    sf::Text text;
+    sf::Vector2f main_view_size;
+    sf::Vector2i text_position;
 
 public:
     sf::RenderWindow* window;
@@ -33,6 +39,10 @@ public:
 
     void erase_id(int id);
     
+    void add_text_to_display(std::string text);
+
+    void draw_text();
+
     void draw_all();
     // 画每个entity
     void draw_entities();

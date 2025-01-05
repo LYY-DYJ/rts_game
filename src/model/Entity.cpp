@@ -16,8 +16,9 @@ Entity::Entity()
     skill = new No_skill();
 }
 
-Entity::Entity(Entity_type et,std::string t,sf::Vector2f p,int max_h,Moveable* m,Entity_factory* f,Strategy* s,Skill* sk)
+Entity::Entity(int faction,Entity_type et,std::string t,sf::Vector2f p,int max_h,Moveable* m,Entity_factory* f,Strategy* s,Skill* sk)
 {
+    this->faction=faction;
     entity_type=et;
     texture=t;
     position=p;
@@ -31,6 +32,7 @@ Entity::Entity(Entity_type et,std::string t,sf::Vector2f p,int max_h,Moveable* m
 
 Entity::Entity(const Entity& e)
 {
+    faction=e.faction;
     id=e.id;
     entity_type=e.entity_type;
     texture=e.texture;
@@ -55,6 +57,7 @@ Entity::~Entity()
 
 void Entity::operator=(Entity& e)
 {
+    faction=e.faction;
     id=e.id;
     entity_type=e.entity_type;
     texture=e.texture;
@@ -94,6 +97,7 @@ Entity_type Entity::str2entity_type(std::string str)
 
 Entity* Entity::create_from_json(json entity_json)
 {
+    int entity_faction=entity_json["faction"];
     Entity_type entity_type=Entity::str2entity_type(entity_json["entity_type"]);
     std::string texture=entity_json["texture"];
     int max_health=entity_json["max_health"];
@@ -102,7 +106,7 @@ Entity* Entity::create_from_json(json entity_json)
     Entity_factory* entity_factory=Entity_factory::create_from_json(entity_json["entity_factory"]);
     Strategy* strategy=Strategy::create_from_json(entity_json["strategy"]);
     Skill* skill=Skill::create_from_json(entity_json["skill"]);
-    Entity* new_entity =new Entity(entity_type,texture,position,max_health,moveable,entity_factory,strategy,skill);
+    Entity* new_entity =new Entity(entity_faction,entity_type,texture,position,max_health,moveable,entity_factory,strategy,skill);
     return new_entity;
 }
 

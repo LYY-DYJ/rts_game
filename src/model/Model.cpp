@@ -15,12 +15,13 @@ Model::~Model()
     }
 }
 
-void Model::add_entity(Entity* entity)
+int Model::add_entity(Entity* entity)
 {
     id_max++;
     entity->id=id_max;
     entity->model=this;
     entities[id_max]=entity;
+    return id_max;
 }
 
 void Model::attack(int id)
@@ -32,7 +33,7 @@ void Model::attack(int id)
 std::vector<Entity*> Model::entity_in_range(sf::Vector2f point,float range)
 {
     std::vector<Entity*> ev;
-    for(auto& [id, entity] : entities)
+    for(auto [id, entity] : entities)
     {
        if(distance(entity->position,point)<range)
        {
@@ -46,7 +47,7 @@ Entity* Model::entity_closest(sf::Vector2f point,float range)
 {
     Entity* e=nullptr;
     float min_d=-1;
-    for(auto& [id, entity] : entities)
+    for(auto [id, entity] : entities)
     {
         float d=distance(entity->position,point);
         if(d<range&&(d<min_d||min_d<0))
@@ -61,7 +62,7 @@ Entity* Model::entity_closest(sf::Vector2f point,float range)
 std::vector<Entity*> Model::entity_vector()
 {
     std::vector<Entity*> ev;
-    for(auto& [id, entity] : entities)
+    for(auto [id, entity] : entities)
     {
         ev.push_back(entity);
     }
@@ -70,7 +71,7 @@ std::vector<Entity*> Model::entity_vector()
 
 void Model::entities_act()
 {
-    for(auto& [id, entity] : entities)
+    for(auto [id, entity] : entities)
     {
         entity->act();
     }
@@ -98,13 +99,16 @@ void Model::settle_event()
     }
     if(entities.empty())
         return;
-    for(auto& [id, entity]: entities)
+    for(auto [id, entity]: entities)
     {
         if(entity->curr_health<=0)
         {
-            entities.erase(id);
             erase_vector.push_back(id);
         }
+    }
+    for(int id:erase_vector)
+    {
+        entities.erase(id);
     }
 }
 

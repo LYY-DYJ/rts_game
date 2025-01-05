@@ -48,7 +48,16 @@ void Normal_attack::reset()
 
 void Normal_attack::release(Entity* entity)
 {
-    int target_id=entity->model->entity_closest(entity->position,range)->id;
+    int target_id=-1;
+    std::vector<Entity*> entities_in_range=entity->model->entity_in_range(entity->position,range);
+    for(int i=0;i<int(entities_in_range.size())&&target_id==-1;i++)
+    {
+        int tmp=entities_in_range[i]->faction;
+        if(tmp!=entity->faction&&tmp!=0)
+        {
+            target_id=entities_in_range[i]->id;
+        }
+    }
     Model_event* e=new Normal_attack_event(target_id,attack);
     entity->model->events_queue.push(e);
 }

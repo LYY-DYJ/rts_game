@@ -34,8 +34,11 @@ int main()
 
     while (window.isOpen())
     {
-        controller.handleInput();
-        model.update();
+        controller.run();
+        if(!(controller.game_is_paused||controller.game_over))
+        {
+            model.update();
+        }
         view.draw_all();
     }
 

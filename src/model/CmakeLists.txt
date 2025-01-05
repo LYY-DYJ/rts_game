@@ -1,5 +1,11 @@
-add_library(model STATIC Model.cpp Entity.cpp Moveable.cpp Entity_factory.cpp Strategy.cpp Skill.cpp Model_event.cpp) 
+add_library(entity STATIC Entity.cpp Moveable.cpp Entity_factory.cpp Strategy.cpp Skill.cpp)
+target_include_directories(entity PUBLIC .)
+target_link_libraries(entity PRIVATE sfml-graphics)
+target_link_libraries(entity PUBLIC nlohmann_json::nlohmann_json)
+target_link_libraries(entity PUBLIC utils)
+
+add_library(model STATIC Model.cpp Model_event.cpp) 
 target_include_directories(model PUBLIC .)
 target_link_libraries(model PRIVATE sfml-graphics)
 target_link_libraries(model PUBLIC nlohmann_json::nlohmann_json)
-target_link_libraries(model PUBLIC utils)
+target_link_libraries(model PUBLIC utils entity)

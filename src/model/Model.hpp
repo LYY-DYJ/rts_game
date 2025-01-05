@@ -26,7 +26,7 @@ public:
     std::queue<Model_event*> events_wait_queue;
     Model();
     ~Model();
-    void add_entity(Entity* entity);
+    int add_entity(Entity* entity);
     void attack(int id);
     std::vector<Entity*> entity_vector();
     std::vector<Entity*> entity_in_range(sf::Vector2f point,float range);
@@ -69,6 +69,7 @@ class Entity
 {
 public:
     int id;
+    int faction;
     Entity_type entity_type;
     std::string texture;
     sf::Vector2f position;
@@ -84,7 +85,7 @@ public:
     Entity(const Entity&);
     ~Entity();
     
-    Entity(Entity_type entity_type,std::string texture,sf::Vector2f position,int max_health,Moveable* moveable,Entity_factory* entity_factory,Strategy* strategy,Skill* skill);
+    Entity(int faction,Entity_type entity_type,std::string texture,sf::Vector2f position,int max_health,Moveable* moveable,Entity_factory* entity_factory,Strategy* strategy,Skill* skill);
     void operator=(Entity&);
     void set_id(int id);
     void act();

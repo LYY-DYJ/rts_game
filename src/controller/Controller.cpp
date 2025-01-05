@@ -13,7 +13,39 @@ Controller::Controller(sf::RenderWindow *w, Model *m, View *v)
     model = m;
     view = v;
     border_size = 20;
+    game_is_paused = 0;
 }
+
+void Controller::run()
+{
+    handleInput();
+    check_game_status();
+}
+
+void Controller::check_game_status()
+{
+    int lose_faction=who_lose();
+    if(lose_faction>0)
+    {
+        losed_faction=lose_faction;
+        game_over=true;
+    }
+}
+
+int Controller::who_lose()
+{
+    for(auto [id,faction]:base_id_faction)
+    {
+        if(model->entities.count(id)==0)
+        {
+            int lose_faction=base_id_faction[id];
+            base_id_faction.erase(id);
+            return lose_faction;
+        }
+    }
+    return -1;
+}
+
 
 void Controller::view_move(sf::Vector2i mouse_position)
 {
@@ -59,9 +91,22 @@ void Controller::handleInput()
                 model->attack(target_id);
             }
         }
+        else if (event.type == sf::Event::KeyPressed)
+        {
+            if (event.key.code == sf::Keyboard::Space)
+            {
+                game_is_paused = !game_is_paused;
+            }
+        }
     }
     sf::Vector2i mouse_position = sf::Mouse::getPosition(*window);
     view_move(mouse_position);
+    if(game_over)
+        view->add_text_to_display(std::to_string(losed_faction)+" Losed");
+    else if (game_is_paused)
+        view->add_text_to_display("Game Paused");
+    else 
+        view->add_text_to_display("");
 }
 
 using json = nlohmann::json;
@@ -74,7 +119,7 @@ void Controller::rts_game_initialize(std::string rts_json_file)
     {
         std::string line;
         while (std::getline(file, line))
-        {                    
+        {
             jsonStr += line; // 将每一行添加到 jsonStr 中
         }
         file.close();
@@ -85,15 +130,22 @@ void Controller::rts_game_initialize(std::string rts_json_file)
     }
 
     json json_info = nlohmann::json::parse(jsonStr);
+    for (const auto &base_json : json_info["base"])
+    {
+        std::cout << base_json << std::endl;
+        int id=add_entity_from_json(base_json);
+        int faction=base_json["faction"];
+        base_id_faction[id]=faction;
+    }
     for (const auto &entity_json : json_info["entities"])
-    {                   
-        std::cout<<entity_json<<std::endl;                 
+    {
+        std::cout << entity_json << std::endl;
         add_entity_from_json(entity_json);
     }
 }
 
-void Controller::add_entity_from_json(json entity_json)
+int Controller::add_entity_from_json(json entity_json)
 {
-    model->add_entity(
+    return model->add_entity(
         Entity::create_from_json(entity_json));
 }
