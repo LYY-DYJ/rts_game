@@ -52,5 +52,5 @@ Moveable *Walk::clone()
 
 void Walk::move(Entity *entity, sf::Vector2f direction)
 {
-    entity->position += direction * speed;
+    entity->position += direction/norm(direction) * speed;
 }

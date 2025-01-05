@@ -5,8 +5,9 @@
       "entity_type": "BUILDING",
       "texture": "shuai_jimao.jpg",
       "position": [100, 450],
-      "bulk":[200,200],
+      "bulk":[100,100],
       "max_health": 2000,
+      "sight":1000,
       "moveable": {
         "move_type": "No_move"
       },
@@ -20,6 +21,7 @@
             "position": [100, 100],
             "bulk":[50,50],
             "max_health": 100,
+            "sight":600,
             "moveable": {
               "move_type": "Walk",
               "speed": 4
@@ -28,11 +30,14 @@
               "entity_factory_type": "False_entity_factory"
             },
             "strategy": {
-              "strategy_type": "Random_strategy",
+              "strategy_type": "Normal_strategy",
               "refresh_gap": 1000
             },
             "skill": {
-              "skill_type": "No_skill"
+              "skill_type": "Normal_attack",
+              "cd_time":1000,
+              "range": 300,
+              "attack":30
             }
           },
           {
@@ -41,7 +46,8 @@
             "texture": "jian_jimao.jpg",
             "position": [100, 100],
             "bulk":[50,50],
-            "max_health": 300,
+            "max_health": 200,
+            "sight":300,
             "moveable": {
               "move_type": "Walk",
               "speed": 4
@@ -50,11 +56,14 @@
               "entity_factory_type": "False_entity_factory"
             },
             "strategy": {
-              "strategy_type": "Random_strategy",
-              "refresh_gap": 1000
+              "strategy_type": "Normal_strategy",
+              "refresh_gap": 500
             },
             "skill": {
-              "skill_type": "No_skill"
+              "skill_type": "Normal_attack",
+              "cd_time":1000,
+              "range": 100,
+              "attack":50
             }
           },
           {
@@ -64,6 +73,7 @@
             "position": [100, 100],
             "bulk":[50,50],
             "max_health": 1000,
+            "sight":400,
             "moveable": {
               "move_type": "Walk",
               "speed": 4
@@ -72,18 +82,20 @@
               "entity_factory_type": "False_entity_factory"
             },
             "strategy": {
-              "strategy_type": "Random_strategy",
-              "refresh_gap": 1000
+              "strategy_type": "Normal_strategy"
             },
             "skill": {
-              "skill_type": "No_skill"
+              "skill_type": "Normal_attack",
+              "cd_time":2000,
+              "range": 150,
+              "attack":100
             }
           }
         ]
       },
       "strategy": {
         "strategy_type": "Random_strategy",
-        "refresh_gap": 1000
+        "refresh_gap": 3000
       },
       "skill": {
         "skill_type": "No_skill"
@@ -94,8 +106,9 @@
       "entity_type": "BUILDING",
       "texture": "lajitong_qingwa.png",
       "position": [1500, 450],
-      "bulk":[200,200],
+      "bulk":[100,100],
       "max_health": 2000,
+      "sight":1000,
       "moveable": {
         "move_type": "No_move"
       },
@@ -103,34 +116,13 @@
         "entity_factory_type": "True_entity_factory",
         "produceable_entity": [
           {
-            "faction": 1,
-            "entity_type": "UNIT",
-            "texture": "shengqi_qingwa.png",
-            "position": [100, 100],
-            "bulk":[50,50],
-            "max_health": 100,
-            "moveable": {
-              "move_type": "Walk",
-              "speed": 4
-            },
-            "entity_factory": {
-              "entity_factory_type": "False_entity_factory"
-            },
-            "strategy": {
-              "strategy_type": "Random_strategy",
-              "refresh_gap": 1000
-            },
-            "skill": {
-              "skill_type": "No_skill"
-            }
-          },
-          {
-            "faction": 1,
+            "faction": 2,
             "entity_type": "UNIT",
             "texture": "baoku_qingwa.png",
             "position": [100, 100],
             "bulk":[50,50],
-            "max_health": 300,
+            "max_health": 100,
+            "sight":600,
             "moveable": {
               "move_type": "Walk",
               "speed": 4
@@ -139,20 +131,48 @@
               "entity_factory_type": "False_entity_factory"
             },
             "strategy": {
-              "strategy_type": "Random_strategy",
-              "refresh_gap": 1000
+              "strategy_type": "Normal_strategy"
             },
             "skill": {
-              "skill_type": "No_skill"
+              "skill_type": "Normal_attack",
+              "cd_time":1000,
+              "range": 300,
+              "attack":30
             }
           },
           {
-            "faction": 1,
+            "faction": 2,
+            "entity_type": "UNIT",
+            "texture": "shengqi_qingwa1.png",
+            "position": [100, 100],
+            "bulk":[50,50],
+            "max_health": 200,
+            "sight":300,
+            "moveable": {
+              "move_type": "Walk",
+              "speed": 4
+            },
+            "entity_factory": {
+              "entity_factory_type": "False_entity_factory"
+            },
+            "strategy": {
+              "strategy_type": "Normal_strategy"
+            },
+            "skill": {
+              "skill_type": "Normal_attack",
+              "cd_time":1000,
+              "range": 100,
+              "attack":50
+            }
+          },
+          {
+            "faction": 2,
             "entity_type": "UNIT",
             "texture": "shuohua_qingwa.png",
             "position": [100, 100],
             "bulk":[50,50],
             "max_health": 1000,
+            "sight":400,
             "moveable": {
               "move_type": "Walk",
               "speed": 4
@@ -161,18 +181,20 @@
               "entity_factory_type": "False_entity_factory"
             },
             "strategy": {
-              "strategy_type": "Random_strategy",
-              "refresh_gap": 1000
+              "strategy_type": "Normal_strategy"
             },
             "skill": {
-              "skill_type": "No_skill"
+              "skill_type": "Normal_attack",
+              "cd_time":2000,
+              "range": 150,
+              "attack":100
             }
           }
         ]
       },
       "strategy": {
         "strategy_type": "Random_strategy",
-        "refresh_gap": 1000
+        "refresh_gap": 3000
       },
       "skill": {
         "skill_type": "No_skill"

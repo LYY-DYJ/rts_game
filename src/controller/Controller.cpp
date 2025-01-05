@@ -14,6 +14,7 @@ Controller::Controller(sf::RenderWindow *w, Model *m, View *v)
     view = v;
     border_size = 20;
     game_is_paused = 0;
+    game_over=0;
 }
 
 void Controller::run()

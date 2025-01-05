@@ -14,7 +14,6 @@ public:
     bool game_is_paused;
     bool game_over;
     void rts_game_initialize(std::string rts_json_file);
-    int add_entity_from_json(json entity_json);
 
 private:
     sf::RenderWindow* window;
