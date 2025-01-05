@@ -25,6 +25,7 @@ public:
     std::queue<Model_event*> events_queue;
     std::queue<Model_event*> events_wait_queue;
     Model();
+    ~Model();
     void add_entity(Entity* entity);
     void attack(int id);
     std::vector<Entity*> entity_vector();

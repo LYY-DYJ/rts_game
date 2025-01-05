@@ -7,6 +7,14 @@ Model::Model()
     id_max=-1;
 }
 
+Model::~Model()
+{
+    for(auto [id,entity] : entities)
+    {
+        delete entity;
+    }
+}
+
 void Model::add_entity(Entity* entity)
 {
     id_max++;
