@@ -1,9 +1,11 @@
 #ifndef MODEL_H
 #define MODEL_H
+#include<nlohmann/json.hpp>
 #include<unordered_map>
 #include<queue>
 #include<SFML/Graphics.hpp>
 
+using json=nlohmann::json;
 
 class Model;
 class Model_event;
@@ -18,14 +20,14 @@ class Model
 public:
     int id_max;
     std::vector<int> erase_vector;
-    std::unordered_map<int,Entity> entities;
+    std::unordered_map<int,Entity*> entities;//Model doesn't create entity but hold it and delete it
     std::queue<Model_event*> events_queue;
     std::queue<Model_event*> events_wait_queue;
     Model();
-    void add_entity(Entity entity);
+    void add_entity(Entity* entity);
     void attack(int id);
-    std::vector<Entity> entity_vector();
-    std::vector<Entity> entity_in_range(sf::Vector2f point,float range);
+    std::vector<Entity*> entity_vector();
+    std::vector<Entity*> entity_in_range(sf::Vector2f point,float range);
     Entity* entity_closest(sf::Vector2f point,float range);
     void entities_act();
     void settle_event();
@@ -79,10 +81,14 @@ public:
     Entity();
     Entity(const Entity&);
     ~Entity();
-    Entity(int id,Entity_type entity_type,std::string texture,Model* model,Moveable* moveable,Entity_factory* entity_factory,Strategy* strategy,Skill* skill);
+    
+    Entity(Entity_type entity_type,std::string texture,sf::Vector2f position,int max_health,Moveable* moveable,Entity_factory* entity_factory,Strategy* strategy,Skill* skill);
     void operator=(Entity&);
     void set_id(int id);
     void act();
+
+    static Entity_type str2entity_type(std::string);
+    static Entity* create_from_json(json enitity_json);
 };
 
 enum Move_type{NO_MOVE,WALK};
@@ -91,11 +97,10 @@ class Moveable
 {
 public:
     Move_type move_type;
-    float speed;
     Moveable();
     virtual Moveable* clone()=0;
     virtual void move(Entity* owner,sf::Vector2f direction)=0;
-
+    static Moveable* create_from_json(json moveable_json);
 };
 
 class No_move:public Moveable
@@ -109,6 +114,7 @@ public:
 class Walk:public Moveable
 {
 public:
+    float speed;
     Walk(float speed);
     Moveable* clone();
     void move(Entity* owner,sf::Vector2f direction);
@@ -122,8 +128,9 @@ public:
     ~Entity_factory(){};
     int entity_num;
     virtual Entity_factory* clone()=0;
-    virtual void add_entity(const Entity&)=0;
+    virtual void add_entity(const Entity*)=0;
     virtual void generate(int i,sf::Vector2f owner_postion)=0;
+    static Entity_factory* create_from_json(json entity_factory_json);
 };
 
 class False_entity_factory:public Entity_factory
@@ -131,7 +138,7 @@ class False_entity_factory:public Entity_factory
 public:
     False_entity_factory();
     Entity_factory* clone();
-    void add_entity(const Entity&){};
+    void add_entity(const Entity*){};
     void generate(int i,sf::Vector2f owner_postion){};
 };
 
@@ -139,11 +146,11 @@ class True_entity_factory:public Entity_factory
 {
 public:
     Model* model;
-    std::vector<Entity> produceable_entity;
+    std::vector<Entity*> produceable_entity;//True_entity_factory's Enitity is created by True_entity_factory and hold by itself
     True_entity_factory(Model* model);
     Entity_factory* clone();
-    void add_entity(const Entity&);
-    void generate(int i,sf::Vector2f owner_postion);
+    void add_entity(const Entity*);
+    void generate(int i,sf::Vector2f owner_postion);//new a Enitity and provide for model
 };
 
 class Strategy

@@ -22,3 +22,4 @@ FetchContent_MakeAvailable(json)
 
 
 install(DIRECTORY game/img DESTINATION ${PROJECT_BINARY_DIR}/rts_game)
+install(DIRECTORY game/content DESTINATION ${PROJECT_BINARY_DIR}/rts_game)

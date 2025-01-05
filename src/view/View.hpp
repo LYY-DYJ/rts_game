@@ -23,13 +23,13 @@ public:
     View(Model* model,sf::RenderWindow* window);
 
     // 更新每个unit的图形
-    void update_sprites(const std::vector<Entity> &entities,const std::vector<int> erase_list);
+    void update_sprites(const std::vector<Entity*> entities,const std::vector<int> erase_list);
 
-    void update_entity_position_circle(const Entity& entity);
+    void update_entity_position_circle(const Entity* entity);
 
-    void update_health_bar(const Entity& entity);
+    void update_health_bar(const Entity* entity);
 
-    void update_max_health_bar(const Entity& entity);
+    void update_max_health_bar(const Entity* entity);
 
     void erase_id(int id);
     

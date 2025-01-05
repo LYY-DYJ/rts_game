@@ -13,6 +13,7 @@ int main()
     View view(&model,&window);
     Controller controller(&window,&model,&view);
     
+    controller.rts_game_initialize("content/rts_game.json");
 
     // 初始化一些单位
     Strategy* s1 = new Random_strategy(1000);
@@ -23,12 +24,10 @@ int main()
     Moveable* m2=new Walk(4);
     Entity_factory* f2=new True_entity_factory(&model);
     Skill* sk2 = new No_skill();
-    Entity ji=Entity(-1,UNIT,"shuai_jimao.jpg",&model,m1,f1,s1,sk1);
-    ji.position=sf::Vector2f(100,100);
-    Entity bai=Entity(-1,UNIT,"wuyu_xiaobai.jpg",&model,m2,f2,s2,sk2);
-    bai.position=sf::Vector2f(200,200);
-    bai.entity_factory->add_entity(bai);
-    bai.entity_factory->add_entity(ji);
+    Entity* ji= new Entity(UNIT,"shuai_jimao.jpg",sf::Vector2f(100,100),200,m1,f1,s1,sk1);
+    Entity* bai= new Entity(UNIT,"wuyu_xiaobai.jpg",sf::Vector2f(200,200),100,m2,f2,s2,sk2);
+    bai->entity_factory->add_entity(bai);
+    bai->entity_factory->add_entity(ji);
     model.add_entity(ji);
     model.add_entity(bai);
 

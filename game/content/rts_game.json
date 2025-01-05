@@ -1,0 +1,62 @@
+{
+    "enities":
+    [
+      {
+        "entity_type": "UNIT",
+        "texture":"shuai_jimao.jpg",
+        "position":[100,100],
+        "max_health":200,
+        "moveable":
+        {
+          "move_type":"Walk",
+          "speed":4
+        },
+        "entity_factory":null,
+        "strategy":"Random_strategy",
+        "skill":null
+      },
+      {
+        "entity_type": "UNIT",
+        "texture":"wuyu_xiaobai.jpg",
+        "position":[200,200],
+        "max_health":100,
+        "moveable":
+        {
+          "move_type":"Walk",
+          "speed":4
+        },
+        "entity_factory":[
+          {
+            "entity_type": "UNIT",
+            "texture":"shuai_jimao.jpg",
+            "position":[100,100],
+            "max_health":200,
+            "moveable":
+            {
+              "move_type":"Walk",
+              "speed":4
+            },
+            "entity_factory":null,
+            "strategy":"Random_strategy",
+            "skill":null
+          },
+          {
+            "entity_type": "UNIT",
+            "texture":"wuyu_xiaobai.jpg",
+            "position":[100,100],
+            "max_health":100,
+            "moveable":
+            {
+              "move_type":"Walk",
+              "speed":4
+            },
+            "entity_factory":null,
+            "strategy":"Random_strategy",
+            "skill":null
+          }
+        ],
+        "strategy":"Random_strategy",
+        "skill":null
+      }
+    ]
+}

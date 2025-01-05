@@ -1,17 +1,18 @@
 #include <SFML/Graphics.hpp>
 #include <nlohmann/json.hpp>
+#include <iostream>
+#include <fstream>
+#include <string>
 #include "Model.hpp"
 #include "View.hpp"
 #include "Controller.hpp"
 
-using json = nlohmann::json;
-
-Controller::Controller(sf::RenderWindow *w,Model* m,View* v)
+Controller::Controller(sf::RenderWindow *w, Model *m, View *v)
 {
     window = w;
     model = m;
-    view=v;
-    border_size=20;
+    view = v;
+    border_size = 20;
 }
 
 void Controller::view_move(sf::Vector2i mouse_position)
@@ -21,10 +22,12 @@ void Controller::view_move(sf::Vector2i mouse_position)
     float right_border = static_cast<float>(window_size.x - border_size);
     float top_border = static_cast<float>(border_size);
     float bottom_border = static_cast<float>(window_size.y - border_size);
-    int x=mouse_position.x<left_border?-1:mouse_position.x>right_border?1:0;
-    int y=mouse_position.y<top_border?-1:mouse_position.y>bottom_border?1:0;
-    if(x!=0||y!=0)
-        view->main_view_move(x,y);
+    int x = mouse_position.x < left_border ? -1 : mouse_position.x > right_border ? 1
+                                                                                  : 0;
+    int y = mouse_position.y < top_border ? -1 : mouse_position.y > bottom_border ? 1
+                                                                                  : 0;
+    if (x != 0 || y != 0)
+        view->main_view_move(x, y);
 }
 
 void Controller::view_zoom(float delta)
@@ -49,16 +52,49 @@ void Controller::handleInput()
         {
             sf::Vector2i mouse_position = sf::Mouse::getPosition(*window);
             sf::Vector2f worldPos = window->mapPixelToCoords(mouse_position);
-            Entity* closest_entity=model->entity_closest(worldPos,50);
-            if(closest_entity!=nullptr)
+            Entity *closest_entity = model->entity_closest(worldPos, 50);
+            if (closest_entity != nullptr)
             {
-                int target_id=closest_entity->id;
+                int target_id = closest_entity->id;
                 model->attack(target_id);
             }
         }
     }
     sf::Vector2i mouse_position = sf::Mouse::getPosition(*window);
     view_move(mouse_position);
-
 }
 
+using json = nlohmann::json;
+
+void Controller::rts_game_initialize(std::string rts_json_file)
+{
+    std::ifstream file(rts_json_file);
+    std::string jsonStr;
+    if (file.is_open())
+    {
+        std::string line;
+        while (std::getline(file, line))
+        {                    
+            jsonStr += line; // 将每一行添加到 jsonStr 中
+        }
+        file.close();
+    }
+    else
+    {
+        std::cerr << "Can't open rts_json_file" << std::endl;
+    }
+
+    json json_info = nlohmann::json::parse(jsonStr);
+    for (const auto &entity_json : json_info["entities"])
+    {                   
+        std::cout<<entity_json;                 
+        add_entity_from_json(entity_json);
+    }
+}
+
+void Controller::add_entity_from_json(json entity_json)
+{
+    Entity_type entity_type=Entity::str2entity_type(entity_json["entity_type"]);
+    int max_health=entity_json["max_health"];
+    sf::Vector2f position=sf::Vector2f(entity_json["position"][0],entity_json["position"][1]);
+}

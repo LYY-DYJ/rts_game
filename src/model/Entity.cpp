@@ -2,90 +2,6 @@
 #include<SFML/Graphics.hpp>
 #include"Model.hpp"
 
-Moveable::Moveable()
-{
-    move_type=NO_MOVE;
-    speed=0;
-}
-
-
-No_move::No_move()
-{
-    move_type=NO_MOVE;
-}
-Moveable* No_move::clone()
-{
-    Moveable* new_moveable;
-    new_moveable = new No_move(*this);
-    return new_moveable;
-}
-void No_move::move(Entity* entity,sf::Vector2f direction){}
-
-Walk::Walk(float spd)
-{
-    move_type=WALK;
-    speed=spd;
-}
-
-Moveable* Walk::clone()
-{
-    Moveable* new_moveable;
-    new_moveable = new Walk(*this);
-    return new_moveable;
-}
-
-void Walk::move(Entity* entity,sf::Vector2f direction)
-{
-    entity->position+=direction*speed;
-}
-
-False_entity_factory::False_entity_factory()
-{
-    entity_num=0;
-}
-
-Entity_factory* False_entity_factory::clone()
-{
-    Entity_factory* new_entity_factory;
-    new_entity_factory = new False_entity_factory(*this);
-    return new_entity_factory;
-}
-
-True_entity_factory::True_entity_factory(Model* m)
-{
-    model=m;
-    entity_factory_type=true;
-    entity_num=0;
-    relative_position=sf::Vector2f(0,0);
-}
-
-Entity_factory* True_entity_factory::clone()
-{
-    Entity_factory* new_entity_factory;
-    new_entity_factory = new True_entity_factory(*this);
-    return new_entity_factory;
-}
-
-void True_entity_factory::add_entity(const Entity& new_entity)
-{
-    produceable_entity.push_back(new_entity);
-    entity_num++;
-}
-
-void True_entity_factory::generate(int i,sf::Vector2f owner_postion)
-{   
-    Entity new_entity;
-    if(i<0&&i>=-int(produceable_entity.size()))
-        i=produceable_entity.size()+i;
-    if(i>=int(produceable_entity.size())||i<0)
-        return;
-    new_entity=produceable_entity.at(i);
-    new_entity.curr_health=new_entity.max_health;
-    new_entity.position=relative_position+owner_postion;
-    new_entity.strategy->reset();
-    model->add_entity(new_entity);
-}
-
 Entity::Entity()
 {
     id=-1;
@@ -100,15 +16,13 @@ Entity::Entity()
     skill = new No_skill();
 }
 
-Entity::Entity(int i,Entity_type et,std::string t,Model* mo,Moveable* m,Entity_factory* f,Strategy* s,Skill* sk)
+Entity::Entity(Entity_type et,std::string t,sf::Vector2f p,int max_h,Moveable* m,Entity_factory* f,Strategy* s,Skill* sk)
 {
-    id=i;
     entity_type=et;
     texture=t;
-    position=sf::Vector2f(0,0);
-    curr_health=max_health=100;
+    position=p;
+    curr_health=max_health=max_h;
     entity_state=IDLE;
-    model=mo;
     moveable=m;
     entity_factory=f;
     strategy=s;
@@ -165,5 +79,26 @@ void Entity::act()
     strategy->control(this);
 }
 
+Entity_type Entity::str2entity_type(std::string str)
+{
+    if (str == "UNIT") {
+        return UNIT;
+    } else if (str == "BUILDING") {
+        return BUILDING;
+    } else if (str == "TERRAIN") {
+        return TERRAIN;
+    } else {
+        throw std::runtime_error("Invalid Entity_type string: " + str);
+    }
+}
+
+Entity* Entity::create_from_json(json entity_json)
+{
+    Entity* new_entity = new Entity;
+    Entity_type entity_type=Entity::str2entity_type(entity_json["entity_type"]);
+    int max_health=entity_json["max_health"];
+    sf::Vector2f position=sf::Vector2f(entity_json["position"][0],entity_json["position"][1]);
+    return new_entity;
+}
 
 
