@@ -28,3 +28,8 @@ bool is_segment_rectangle_intersect(sf::Vector2f a0,sf::Vector2f a1,sf::Vector2f
     sf::Vector2f half_anti_diagnonal=sf::Vector2f(0.5f*bulk.x,-0.5f*bulk.y);
     return(is_segment_intersect(a0,a1,origin-half_diagonal,origin+half_diagonal)||is_segment_intersect(a0,a1,origin-half_anti_diagnonal,origin+half_anti_diagnonal));
 }
+
+bool is_in_rectangle(sf::Vector2f point,sf::Vector2f rectangle_vertex0,sf::Vector2f rectangle_vertex1 )
+{
+    return((point.x-rectangle_vertex0.x)*(point.x-rectangle_vertex1.x)<0&&(point.y-rectangle_vertex0.y)*(point.y-rectangle_vertex1.y)<0);
+}

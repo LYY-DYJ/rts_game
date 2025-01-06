@@ -14,7 +14,7 @@ Controller::Controller(sf::RenderWindow *w, Model *m, View *v)
     view = v;
     border_size = 20;
     game_is_paused = 0;
-    game_over=0;
+    game_over = 0;
 }
 
 void Controller::run()
@@ -25,28 +25,33 @@ void Controller::run()
 
 void Controller::check_game_status()
 {
-    int lose_faction=who_lose();
-    if(lose_faction>0)
+    int lose_faction = who_lose();
+    if (lose_faction > 0)
     {
-        losed_faction=lose_faction;
-        game_over=true;
+        losed_faction = lose_faction;
+        game_over = true;
     }
+    if (game_over)
+        view->add_text_to_display(std::to_string(losed_faction) + " Losed");
+    else if (game_is_paused)
+        view->add_text_to_display("Game Paused");
+    else
+        view->add_text_to_display("");
 }
 
 int Controller::who_lose()
 {
-    for(auto [id,faction]:base_id_faction)
+    for (auto [id, faction] : base_id_faction)
     {
-        if(model->entities.count(id)==0)
+        if (model->entities.count(id) == 0)
         {
-            int lose_faction=base_id_faction[id];
+            int lose_faction = base_id_faction[id];
             base_id_faction.erase(id);
             return lose_faction;
         }
     }
     return -1;
 }
-
 
 void Controller::view_move(sf::Vector2i mouse_position)
 {
@@ -84,12 +89,32 @@ void Controller::handleInput()
         else if (event.type == sf::Event::MouseButtonPressed)
         {
             sf::Vector2i mouse_position = sf::Mouse::getPosition(*window);
-            sf::Vector2f worldPos = window->mapPixelToCoords(mouse_position);
-            Entity *closest_entity = model->entity_closest(worldPos, 50);
-            if (closest_entity != nullptr)
+            sf::Vector2f world_pos = window->mapPixelToCoords(mouse_position);
+            if (event.mouseButton.button == sf::Mouse::Right&&sf::Keyboard::isKeyPressed(sf::Keyboard::A))//press A and click to attack unit
             {
-                int target_id = closest_entity->id;
-                model->attack(target_id);
+                Entity *closest_entity = model->entity_closest(world_pos, 50);
+                if (closest_entity != nullptr)
+                {
+                    int target_id = closest_entity->id;
+                    model->attack(target_id);
+                }
+            }
+            else if(event.mouseButton.button == sf::Mouse::Right)
+            {
+                model->order_change_group_destination(world_pos);
+            }
+            else if(event.mouseButton.button == sf::Mouse::Left)
+            {
+                model->group = new Order_group(world_pos);
+            }
+        }
+        else if(event.type == sf::Event::MouseButtonReleased)
+        {
+            sf::Vector2i mouse_position = sf::Mouse::getPosition(*window);
+            sf::Vector2f world_pos = window->mapPixelToCoords(mouse_position);
+            if(event.mouseButton.button == sf::Mouse::Left)
+            {
+                model->group->set_end_point(world_pos);
             }
         }
         else if (event.type == sf::Event::KeyPressed)
@@ -102,12 +127,6 @@ void Controller::handleInput()
     }
     sf::Vector2i mouse_position = sf::Mouse::getPosition(*window);
     view_move(mouse_position);
-    if(game_over)
-        view->add_text_to_display(std::to_string(losed_faction)+" Losed");
-    else if (game_is_paused)
-        view->add_text_to_display("Game Paused");
-    else 
-        view->add_text_to_display("");
 }
 
 using json = nlohmann::json;
@@ -121,7 +140,7 @@ void Controller::rts_game_initialize(std::string rts_json_file)
         std::string line;
         while (std::getline(file, line))
         {
-            jsonStr += line; // 将每一行添加到 jsonStr 中
+            jsonStr += line;
         }
         file.close();
     }
@@ -134,15 +153,15 @@ void Controller::rts_game_initialize(std::string rts_json_file)
     for (const auto &base_json : json_info["base"])
     {
         std::cout << base_json << std::endl;
-        int id=model->add_base(
-        Entity::create_from_json(base_json));
-        int faction=base_json["faction"];
-        base_id_faction[id]=faction;
+        int id = model->add_base(
+            Entity::create_from_json(base_json));
+        int faction = base_json["faction"];
+        base_id_faction[id] = faction;
     }
     for (const auto &entity_json : json_info["entities"])
     {
         std::cout << entity_json << std::endl;
         model->add_entity(
-        Entity::create_from_json(entity_json));
+            Entity::create_from_json(entity_json));
     }
 }

@@ -4,7 +4,7 @@ target_link_libraries(entity PRIVATE sfml-graphics)
 target_link_libraries(entity PUBLIC nlohmann_json::nlohmann_json)
 target_link_libraries(entity PUBLIC utils)
 
-add_library(model STATIC Model.cpp Model_event.cpp) 
+add_library(model STATIC Model.cpp Order_group.cpp Model_event.cpp) 
 target_include_directories(model PUBLIC .)
 target_link_libraries(model PRIVATE sfml-graphics)
 target_link_libraries(model PUBLIC nlohmann_json::nlohmann_json)

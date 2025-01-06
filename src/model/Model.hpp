@@ -11,6 +11,7 @@
 using json = nlohmann::json;
 
 class Model;
+class Order_group;
 class Model_event;
 class Entity;
 class Entity_factory;
@@ -27,11 +28,13 @@ public:
     std::queue<Model_event *> events_queue;
     std::queue<Model_event *> events_wait_queue;
     std::unordered_map<int, int> base_faction_id;
+    Order_group* group;
     Model();
     ~Model();
     int add_entity(Entity *entity);
     int add_base(Entity *entity);
     void attack(int id);
+    void order_change_group_destination(sf::Vector2f new_destination);
     std::vector<Entity *> entity_vector();
     std::vector<Entity *> entity_in_range(sf::Vector2f point, float range);
     Entity *entity_closest(sf::Vector2f point, float range);
@@ -40,6 +43,17 @@ public:
     void entities_act();
     void settle_event();
     void update();
+};
+
+class Order_group
+{
+private:
+    sf::Vector2f begin_point;
+    sf::Vector2f end_point;
+public:
+    Order_group(sf::Vector2f begin_point);
+    void set_end_point(sf::Vector2f end_point);
+    std::vector<Entity*> get_group(Model* model);
 };
 
 class Model_event
@@ -185,6 +199,7 @@ public:
     virtual void reset() = 0;
     virtual Strategy *clone() = 0;
     virtual void control(Entity *entity) = 0;
+    virtual void order_change_destination(sf::Vector2f new_destination)=0;
     ~Strategy() {};
     static Strategy *create_from_json(json strategy_json);
 };
@@ -196,6 +211,7 @@ public:
     void reset() {};
     Strategy *clone();
     void control(Entity *entity) {};
+    void order_change_destination(sf::Vector2f new_destination) {};
 };
 
 class Random_strategy : public Strategy
@@ -211,6 +227,7 @@ public:
     void reset();
     Strategy *clone();
     void control(Entity *entity);
+    void order_change_destination(sf::Vector2f new_destination){};
 };
 
 enum Behavior_pattern
@@ -235,6 +252,7 @@ public:
     void reset();
     Strategy *clone();
     void control(Entity *entity);
+    void order_change_destination(sf::Vector2f new_destination);
 };
 
 enum Skill_type

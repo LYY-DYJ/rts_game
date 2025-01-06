@@ -133,6 +133,11 @@ void Normal_strategy::control(Entity *owner)
             }
             if (owner->model->is_way_blocked(owner->position, destination,entities_in_sight))
                 behavior_pattern_stack.push(BY_PASS_BLOCK);
+            else if(norm(destination-owner->position)<1)
+            {
+                behavior_pattern_stack.pop();
+                behavior_pattern_stack.push(WAIT);
+            }
             else
                 owner->moveable->move(owner, destination - owner->position);
         }
@@ -177,4 +182,15 @@ void Normal_strategy::control(Entity *owner)
         else
             behavior_pattern_stack.pop();
     }
+}
+
+void Normal_strategy::order_change_destination(sf::Vector2f position)
+{
+    while(!behavior_pattern_stack.empty())
+    {
+        behavior_pattern_stack.pop();
+    }
+    behavior_pattern_stack.push(WALK_TO_DESTINATION);
+    destination=position;
+    is_destination_available=true;
 }

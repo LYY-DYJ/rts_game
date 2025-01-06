@@ -13,6 +13,7 @@ Model::~Model()
     {
         delete entity;
     }
+    delete group;
 }
 
 int Model::add_entity(Entity *entity)
@@ -37,6 +38,17 @@ void Model::attack(int id)
     events_queue.push(e);
 }
 
+void Model::order_change_group_destination(sf::Vector2f new_destination)
+{
+    if(group==nullptr)
+        return;
+    std::vector<Entity *> entities_grouped = group->get_group(this);
+    for (Entity *entity : entities_grouped)
+    {
+        entity->strategy->order_change_destination(new_destination);
+    }
+}
+
 std::vector<Entity *> Model::entity_in_range(sf::Vector2f point, float range)
 {
     std::vector<Entity *> ev;
@@ -52,11 +64,11 @@ std::vector<Entity *> Model::entity_in_range(sf::Vector2f point, float range)
 
 std::vector<Entity *> Model::entity_in_sight(sf::Vector2f point, float range)
 {
-    std::vector<Entity*> ev;
-    std::vector<Entity*> entities_in_sight_range=entity_in_range(point,range);
-    for(Entity* entity: entities_in_sight_range)
+    std::vector<Entity *> ev;
+    std::vector<Entity *> entities_in_sight_range = entity_in_range(point, range);
+    for (Entity *entity : entities_in_sight_range)
     {
-        if(!is_way_blocked(point,entity->position,entities_in_sight_range))
+        if (!is_way_blocked(point, entity->position, entities_in_sight_range))
         {
             ev.push_back(entity);
         }
@@ -64,7 +76,7 @@ std::vector<Entity *> Model::entity_in_sight(sf::Vector2f point, float range)
     return ev;
 }
 
-bool Model::is_way_blocked(sf::Vector2f position1, sf::Vector2f position2, std::vector<Entity*> blocks)
+bool Model::is_way_blocked(sf::Vector2f position1, sf::Vector2f position2, std::vector<Entity *> blocks)
 {
     bool is_blocked = false;
     for (auto block : blocks)
