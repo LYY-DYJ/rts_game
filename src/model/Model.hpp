@@ -49,12 +49,17 @@ class Order_group
 {
 private:
     int faction;
+    std::vector<Entity *> entities_in_group;
+
+public:
     sf::Vector2f begin_point;
     sf::Vector2f end_point;
-public:
+    bool is_setting;
     Order_group(sf::Vector2f begin_point,int faction);
     void set_end_point(sf::Vector2f end_point,int faction);
     std::vector<Entity*> get_group(Model* model);
+
+    static int group_id;
 };
 
 class Model_event

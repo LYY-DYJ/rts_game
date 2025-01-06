@@ -105,9 +105,18 @@ void Controller::handleInput()
             }
             else if(event.mouseButton.button == sf::Mouse::Left)
             {
+                delete model->group;
                 model->group = new Order_group(world_pos,player_faction);
             }
         }
+        else if (event.type == sf::Event::MouseButtonReleased)
+        {
+            if (event.mouseButton.button == sf::Mouse::Left)
+            {
+                model->group->is_setting=false;
+            }
+        }
+        
         else if (event.type == sf::Event::KeyPressed)
         {
             if (event.key.code == sf::Keyboard::Space)

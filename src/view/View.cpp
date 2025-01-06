@@ -12,6 +12,50 @@ void View::erase_id(int id)
     entities_position_circle.erase(id);
 }
 
+void View::draw_group(Order_group* group)
+{
+    if(group==nullptr)
+        return;
+    if(group_id!=Order_group::group_id)
+    {
+        entities_group_sign.clear();
+    }
+    group_id=Order_group::group_id;
+    update_group_sign(group);
+    if(group->is_setting)
+    {
+        group_rect=sf::RectangleShape(group->end_point-group->begin_point);
+        group_rect.setPosition(group->begin_point);
+        group_rect.setFillColor(sf::Color(0,0,255,100));
+        group_rect.setOutlineColor(sf::Color(0,0,255));
+        group_rect.setOutlineThickness(1);
+        window->draw(group_rect);
+    }
+    for (const int &i : model->erase_vector)
+        if(entities_group_sign.count(i))
+            entities_group_sign.erase(i);
+    for (const auto &[id, group_rect] : entities_group_sign)
+    {
+        window->draw(group_rect);
+    }
+}
+
+void View::update_group_sign(Order_group* group)
+{
+    std::vector<Entity*> grouped_entities=group->get_group(model);
+    for(Entity* entity:grouped_entities)
+    {
+        sf::RectangleShape group_sign=sf::RectangleShape(entity->bulk);
+        group_sign.setOrigin(0.5f*group_sign.getLocalBounds().width,0.5f*group_sign.getLocalBounds().height);
+        group_sign.setPosition(entity->position);
+        group_sign.setFillColor(sf::Color(0,0,0,0));
+        group_sign.setOutlineColor(sf::Color(0,0,255));
+        group_sign.setOutlineThickness(1);
+        entities_group_sign[entity->id]=group_sign;
+    }
+
+}
+
 void View::update_sprites(const std::vector<Entity *> entities, const std::vector<int> erase_vector)
 {
     for (const int &i : erase_vector)
@@ -98,6 +142,7 @@ void View::draw_all()
     window->setView(main_view);
     window->clear(sf::Color::White);
     draw_entities();
+    draw_group(model->group);
     draw_text();
     window->display();
 }

@@ -5,6 +5,7 @@
 Model::Model()
 {
     id_max = -1;
+    group = nullptr;
 }
 
 Model::~Model()

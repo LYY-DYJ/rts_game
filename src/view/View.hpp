@@ -17,6 +17,9 @@ private:
     std::unordered_map<int, sf::RectangleShape> entities_health_bar;
     std::unordered_map<int, sf::RectangleShape> entities_max_health_bar;
     std::unordered_map<int, sf::CircleShape> entities_position_circle;
+    std::unordered_map<int, sf::RectangleShape> entities_group_sign;
+    sf::RectangleShape group_rect;
+    int group_id;
     std::string text_to_display;
     sf::Font font;
     sf::Text text;
@@ -28,7 +31,9 @@ public:
     Model* model;
     View(Model* model,sf::RenderWindow* window);
 
-    // 更新每个unit的图形
+    // 更新每个entity的图形
+    void update_group_sign(Order_group* group);
+
     void update_sprites(const std::vector<Entity*> entities,const std::vector<int> erase_list);
 
     void update_entity_position_circle(const Entity* entity);
@@ -41,11 +46,12 @@ public:
     
     void add_text_to_display(std::string text);
 
-    void draw_text();
+
 
     void draw_all();
-    // 画每个entity
     void draw_entities();
+    void draw_text();
+    void draw_group(Order_group* group);
     // 移动主视角
     void main_view_move(int x,int y);
     // 缩放主视角
