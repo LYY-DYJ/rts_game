@@ -10,6 +10,7 @@ class Controller {
 public:
     Controller(sf::RenderWindow* window,Model* model,View* view);
 
+    int player_faction;
     void run();
     bool game_is_paused;
     bool game_over;

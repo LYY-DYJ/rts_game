@@ -48,11 +48,12 @@ public:
 class Order_group
 {
 private:
+    int faction;
     sf::Vector2f begin_point;
     sf::Vector2f end_point;
 public:
-    Order_group(sf::Vector2f begin_point);
-    void set_end_point(sf::Vector2f end_point);
+    Order_group(sf::Vector2f begin_point,int faction);
+    void set_end_point(sf::Vector2f end_point,int faction);
     std::vector<Entity*> get_group(Model* model);
 };
 
@@ -237,6 +238,8 @@ enum Behavior_pattern
     FIND_ENEMY,
     ATTACKING,
     BY_PASS_BLOCK,
+    ORDERED_WALK_TO_DESTINATION,
+    ORDERE_BY_PASS_BLOCK
 };
 
 class Normal_strategy : public Strategy

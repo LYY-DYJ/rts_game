@@ -105,16 +105,7 @@ void Controller::handleInput()
             }
             else if(event.mouseButton.button == sf::Mouse::Left)
             {
-                model->group = new Order_group(world_pos);
-            }
-        }
-        else if(event.type == sf::Event::MouseButtonReleased)
-        {
-            sf::Vector2i mouse_position = sf::Mouse::getPosition(*window);
-            sf::Vector2f world_pos = window->mapPixelToCoords(mouse_position);
-            if(event.mouseButton.button == sf::Mouse::Left)
-            {
-                model->group->set_end_point(world_pos);
+                model->group = new Order_group(world_pos,player_faction);
             }
         }
         else if (event.type == sf::Event::KeyPressed)
@@ -125,6 +116,12 @@ void Controller::handleInput()
             }
         }
     }
+    if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
+    {
+        sf::Vector2i mouse_position = sf::Mouse::getPosition(*window);
+        sf::Vector2f world_pos = window->mapPixelToCoords(mouse_position);
+        model->group->set_end_point(world_pos,player_faction);
+    }
     sf::Vector2i mouse_position = sf::Mouse::getPosition(*window);
     view_move(mouse_position);
 }
@@ -133,6 +130,7 @@ using json = nlohmann::json;
 
 void Controller::rts_game_initialize(std::string rts_json_file)
 {
+    player_faction=1;
     std::ifstream file(rts_json_file);
     std::string jsonStr;
     if (file.is_open())

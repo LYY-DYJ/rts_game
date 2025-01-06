@@ -133,7 +133,7 @@ void Normal_strategy::control(Entity *owner)
             }
             if (owner->model->is_way_blocked(owner->position, destination,entities_in_sight))
                 behavior_pattern_stack.push(BY_PASS_BLOCK);
-            else if(norm(destination-owner->position)<1)
+            else if(norm(destination-owner->position)<5)
             {
                 behavior_pattern_stack.pop();
                 behavior_pattern_stack.push(WAIT);
@@ -151,10 +151,7 @@ void Normal_strategy::control(Entity *owner)
         else if (owner->model->is_way_blocked(owner->position, destination,entities_in_sight))
             owner->moveable->move(owner, sf::Vector2f((destination - owner->position).y, -(destination - owner->position).x));
         else
-        {
             behavior_pattern_stack.pop();
-            behavior_pattern_stack.push(WALK_TO_DESTINATION);
-        }
     }
     else if (behavior_pattern_stack.top() == FIND_ENEMY)
     {
@@ -182,6 +179,25 @@ void Normal_strategy::control(Entity *owner)
         else
             behavior_pattern_stack.pop();
     }
+    else if (behavior_pattern_stack.top() == ORDERED_WALK_TO_DESTINATION)
+    {
+        if (owner->model->is_way_blocked(owner->position, destination,entities_in_sight))
+            behavior_pattern_stack.push(ORDERE_BY_PASS_BLOCK);
+        if(norm(destination-owner->position)<5)
+        {
+            behavior_pattern_stack.pop();
+            behavior_pattern_stack.push(WAIT);
+        }
+        else
+            owner->moveable->move(owner, destination - owner->position);
+    }
+    else if(behavior_pattern_stack.top() == ORDERE_BY_PASS_BLOCK)
+    {
+        if (owner->model->is_way_blocked(owner->position, destination,entities_in_sight))
+            owner->moveable->move(owner, sf::Vector2f((destination - owner->position).y, -(destination - owner->position).x));
+        else
+            behavior_pattern_stack.pop();
+    }
 }
 
 void Normal_strategy::order_change_destination(sf::Vector2f position)
@@ -190,7 +206,7 @@ void Normal_strategy::order_change_destination(sf::Vector2f position)
     {
         behavior_pattern_stack.pop();
     }
-    behavior_pattern_stack.push(WALK_TO_DESTINATION);
+    behavior_pattern_stack.push(ORDERED_WALK_TO_DESTINATION);
     destination=position;
     is_destination_available=true;
 }
