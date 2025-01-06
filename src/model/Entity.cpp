@@ -18,6 +18,22 @@ Entity::Entity()
     skill = new No_skill();
 }
 
+Entity::Entity(int faction,Entity_type et,std::string t,sf::Vector2f p,sf::Vector2f b)
+{
+    this->faction=faction;
+    curr_health=max_health=10000;
+    entity_type=et;
+    texture=t;
+    position=p;
+    bulk=b;
+    entity_state=IDLE;
+    sight=0;
+    moveable=new No_move();
+    entity_factory = new False_entity_factory();
+    strategy = new No_strategy();
+    skill = new No_skill();
+}
+
 Entity::Entity(int faction,Entity_type et,std::string t,sf::Vector2f p,sf::Vector2f b,int max_h,float si,Moveable* m,Entity_factory* f,Strategy* s,Skill* sk)
 {
     this->faction=faction;
@@ -129,11 +145,13 @@ Entity* Entity::create_from_json(json entity_json)
 {
     int entity_faction=entity_json["faction"];
     Entity_type entity_type=Entity::str2entity_type(entity_json["entity_type"]);
-    std::string texture=entity_json["texture"];
-    int max_health=entity_json["max_health"];
-    float sight=entity_json["sight"];
     sf::Vector2f position=sf::Vector2f(entity_json["position"][0],entity_json["position"][1]);
     sf::Vector2f bulk=sf::Vector2f(entity_json["bulk"][0],entity_json["bulk"][1]);
+    std::string texture=entity_json["texture"];
+    if(entity_type==MOUNTAIN)
+        return new Entity(entity_faction,entity_type,texture,position,bulk);
+    int max_health=entity_json["max_health"];
+    float sight=entity_json["sight"];
     Moveable* moveable=Moveable::create_from_json(entity_json["moveable"]);
     Entity_factory* entity_factory=Entity_factory::create_from_json(entity_json["entity_factory"]);
     Strategy* strategy=Strategy::create_from_json(entity_json["strategy"]);

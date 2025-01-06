@@ -52,24 +52,22 @@ std::vector<Entity *> Model::entity_in_range(sf::Vector2f point, float range)
 
 std::vector<Entity *> Model::entity_in_sight(sf::Vector2f point, float range)
 {
-    std::vector<Entity *> ev;
-    for (auto [id, entity] : entities)
+    std::vector<Entity*> ev;
+    std::vector<Entity*> entities_in_sight_range=entity_in_range(point,range);
+    for(Entity* entity: entities_in_sight_range)
     {
-        if (distance(entity->position, point) < range)
+        if(!is_way_blocked(point,entity->position,entities_in_sight_range))
         {
-            if (!is_way_blocked(entity->position,point))
-            {
-                ev.push_back(entity);
-            }
+            ev.push_back(entity);
         }
     }
     return ev;
 }
 
-bool Model::is_way_blocked(sf::Vector2f position1, sf::Vector2f position2)
+bool Model::is_way_blocked(sf::Vector2f position1, sf::Vector2f position2, std::vector<Entity*> blocks)
 {
     bool is_blocked = false;
-    for (auto [id, block] : entities)
+    for (auto block : blocks)
     {
         if (block->entity_type == MOUNTAIN && is_segment_rectangle_intersect(position1, position2, block->position, block->bulk))
         {

@@ -9,7 +9,7 @@ void View::erase_id(int id)
     entity_sprites.erase(id);
     entities_health_bar.erase(id);
     entities_max_health_bar.erase(id);
-    // entities_position_circle.erase(id);
+    entities_position_circle.erase(id);
 }
 
 void View::update_sprites(const std::vector<Entity *> entities, const std::vector<int> erase_vector)
@@ -26,10 +26,10 @@ void View::update_sprites(const std::vector<Entity *> entities, const std::vecto
             sf::Sprite sprite;
             textures[entity->texture] = texture;
             sprite.setTexture(textures[entity->texture]);
+            sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
             sprite.setScale(sf::Vector2f(entity->bulk.x / texture.getSize().x, entity->bulk.y / texture.getSize().y));
-            sf::Vector2f sprite_scale = sprite.getScale();
-            sprite.setPosition(entity->position - sf::Vector2f(25, 25));
-            // update_entity_position_circle(entity);
+            sprite.setPosition(entity->position);
+            update_entity_position_circle(entity);
             if (entity->entity_state == ATTACKTED)
                 sprite.setColor(sf::Color(255, 128, 128));
             if (entity->entity_type == UNIT || entity->entity_type == BUILDING)
@@ -50,7 +50,8 @@ void View::update_health_bar(const Entity *entity)
     float health_bar_length = 50;
     float health_ratio = float(entity->curr_health) / float(entity->max_health);
     sf::RectangleShape health_bar(sf::Vector2f(health_bar_length * health_ratio, health_bar_width));
-    health_bar.setPosition(sf::Vector2f(-25, 25) + entity->position);
+    health_bar.setOrigin(health_bar_length/2,0);
+    health_bar.setPosition(entity->position+sf::Vector2f(0,0.5*entity->bulk.y));
     health_bar.setFillColor(sf::Color::Red);
     entities_health_bar[entity->id] = health_bar;
 }
@@ -61,7 +62,8 @@ void View::update_max_health_bar(const Entity *entity)
     float health_bar_length = 50;
     float out_line_width = 1;
     sf::RectangleShape max_health_bar(sf::Vector2f(health_bar_length, health_bar_width));
-    max_health_bar.setPosition(sf::Vector2f(-25, 25) + entity->position);
+    max_health_bar.setOrigin(health_bar_length/2,0);
+    max_health_bar.setPosition(entity->position+sf::Vector2f(0,0.5*entity->bulk.y));
     max_health_bar.setFillColor(sf::Color(200, 200, 200));
     max_health_bar.setOutlineColor(sf::Color::Black);
     max_health_bar.setOutlineThickness(out_line_width);

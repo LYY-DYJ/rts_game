@@ -62,7 +62,7 @@
             "skill": {
               "skill_type": "Normal_attack",
               "cd_time":1000,
-              "range": 100,
+              "range": 50,
               "attack":50
             }
           },
@@ -87,7 +87,7 @@
             "skill": {
               "skill_type": "Normal_attack",
               "cd_time":2000,
-              "range": 150,
+              "range": 50,
               "attack":100
             }
           }
@@ -161,7 +161,7 @@
             "skill": {
               "skill_type": "Normal_attack",
               "cd_time":1000,
-              "range": 100,
+              "range": 50,
               "attack":50
             }
           },
@@ -186,7 +186,7 @@
             "skill": {
               "skill_type": "Normal_attack",
               "cd_time":2000,
-              "range": 150,
+              "range": 50,
               "attack":100
             }
           }
@@ -199,6 +199,22 @@
       "skill": {
         "skill_type": "No_skill"
       }
+    }
+  ],
+  "entities":[
+    {
+      "faction":0,
+      "entity_type":"MOUNTAIN",
+      "texture":"mountain.png",
+      "position":[800,450],
+      "bulk":[100,200]
+    },
+    {
+      "faction":0,
+      "entity_type":"MOUNTAIN",
+      "texture":"mountain.png",
+      "position":[600,600],
+      "bulk":[100,200]
     }
   ]
 }

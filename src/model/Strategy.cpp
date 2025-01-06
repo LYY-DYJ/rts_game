@@ -131,7 +131,7 @@ void Normal_strategy::control(Entity *owner)
                 destination = owner->enemy_base_position();
                 is_destination_available = true;
             }
-            if (owner->model->is_way_blocked(owner->position, destination))
+            if (owner->model->is_way_blocked(owner->position, destination,entities_in_sight))
                 behavior_pattern_stack.push(BY_PASS_BLOCK);
             else
                 owner->moveable->move(owner, destination - owner->position);
@@ -143,7 +143,7 @@ void Normal_strategy::control(Entity *owner)
             behavior_pattern_stack.push(FIND_ENEMY);
         else if (is_enemy == true && enemy_out_skill_range == false)
             behavior_pattern_stack.push(ATTACKING);
-        else if (owner->model->is_way_blocked(owner->position, destination))
+        else if (owner->model->is_way_blocked(owner->position, destination,entities_in_sight))
             owner->moveable->move(owner, sf::Vector2f((destination - owner->position).y, -(destination - owner->position).x));
         else
         {

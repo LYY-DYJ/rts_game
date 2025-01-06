@@ -36,7 +36,7 @@ public:
     std::vector<Entity *> entity_in_range(sf::Vector2f point, float range);
     Entity *entity_closest(sf::Vector2f point, float range);
     std::vector<Entity *> entity_in_sight(sf::Vector2f point, float range);
-    bool is_way_blocked(sf::Vector2f position1,sf::Vector2f position2);
+    bool is_way_blocked(sf::Vector2f position1,sf::Vector2f position2,std::vector<Entity*> blocks);
     void entities_act();
     void settle_event();
     void update();
@@ -102,7 +102,7 @@ public:
     Entity();
     Entity(const Entity &);
     ~Entity();
-
+    Entity(int faction, Entity_type entity_type, std::string texture, sf::Vector2f position,sf::Vector2f bulk);
     Entity(int faction, Entity_type entity_type, std::string texture, sf::Vector2f position, sf::Vector2f bulk, int max_health,float sight, Moveable *moveable, Entity_factory *entity_factory, Strategy *strategy, Skill *skill);
     void operator=(Entity &);
     void set_id(int id);
